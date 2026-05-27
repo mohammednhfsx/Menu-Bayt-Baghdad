@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menubaghdad/core/constant/app_colors.dart';
 
 class CustomIconContainer extends StatelessWidget {
   final IconData icon;
@@ -10,7 +11,7 @@ class CustomIconContainer extends StatelessWidget {
     super.key,
     required this.icon,
     this.iconColor = Colors.orange,
-    this.backgroundColor = const Color(0xFF2C1F0A),
+    this.backgroundColor = AppColors.cardColor,
     this.size = 22,
   });
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menubaghdad/core/constant/app_colors.dart';
 import 'package:menubaghdad/view/widgets/custom_icons.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -6,7 +7,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 14, 5, 2),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -23,9 +24,8 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-  // ──────────────────────────────────────────────────────────────
-  // ── Header ────────────────────────────────────────────────────
-  // ──────────────────────────────────────────────────────────────
+
+  //──────────────────────────── Header ────────────────────────────────────────
 
   Widget _buildHeader() {
     return Padding(
@@ -33,14 +33,10 @@ class HomeScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // ──────────────────────────────────────────────────────────────
-          // Bell icon
-          // ──────────────────────────────────────────────────────────────
+          //  icon
           CustomIconContainer(icon: Icons.notifications_outlined),
 
-          // ──────────────────────────────────────────────────────────────
-          // Address + greeting
-          // ──────────────────────────────────────────────────────────────
+          //────────── Address + greeting ─────────────────────
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
@@ -48,12 +44,12 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   const Text(
                     'طاولة رقم ١٢ • فرع الكرادة',
-                    style: TextStyle(color: Color(0xFFB0A090), fontSize: 14),
+                    style: TextStyle(color: AppColors.greyText, fontSize: 14),
                   ),
                   const SizedBox(width: 4),
                   const Icon(
                     Icons.location_on,
-                    color: Color(0xFFE8961A),
+                    color: AppColors.primaryOrange,
                     size: 14,
                   ),
                 ],
@@ -64,11 +60,11 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: 'أهلاً بك في ',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color:AppColors.white),
                     ),
                     TextSpan(
                       text: 'منيو بغداد',
-                      style: TextStyle(color: Color(0xFFE8961A)),
+                      style: TextStyle(color:AppColors.primaryOrange),
                     ),
                   ],
                 ),
