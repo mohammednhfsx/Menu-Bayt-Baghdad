@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:menubaghdad/custom_button.dart';
 
 void main() {
   runApp(const MyApp());
@@ -104,6 +105,17 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: .center,
           children: [
+            CustomButton(
+              width: 75,
+              height: 75,
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              child: Column(
+                children: [
+                  Icon(Icons.eighteen_mp),
+                  Text("data")
+                ],
+              ),),
             const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
