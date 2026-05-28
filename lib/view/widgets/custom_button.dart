@@ -21,6 +21,8 @@ class CustomButton extends StatelessWidget {
     
     Widget centeredChild = child;
 
+    // Centered The Child that Return
+    
     if(child is Row){
       centeredChild = Row(
         mainAxisAlignment: .center,
@@ -37,6 +39,9 @@ class CustomButton extends StatelessWidget {
         children: (child as Column).children,
       );
     }
+
+
+    // Custom Button Design
 
     return InkWell(
       onTap: onTap,
