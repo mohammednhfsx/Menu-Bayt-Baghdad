@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
 import 'package:menubaghdad/view/widgets/custom_icons.dart';
 
+import '../widgets/custom_button.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
@@ -15,7 +17,20 @@ class HomeScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [_buildHeader()],
+                  children: [
+                    _buildHeader(),
+                    CustomButton(
+                        width: 75, 
+                        height: 75, 
+                        foregroundColor: AppColors.whiteText,
+                        backgroundColor: AppColors.primaryOrange,
+                        child: Column(
+                          children: [
+                            Icon(Icons.eighteen_mp),
+                            Text("data")
+                          ],
+                        ))
+                  ],
                 ),
               ),
             ),
@@ -60,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: 'أهلاً بك في ',
-                      style: TextStyle(color:AppColors.white),
+                      style: TextStyle(color:AppColors.whiteText),
                     ),
                     TextSpan(
                       text: 'منيو بغداد',
