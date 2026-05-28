@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// Custom Button for the App 
+// Custom Button for the App
 class CustomButton extends StatelessWidget {
   final double width;
   final double height;
