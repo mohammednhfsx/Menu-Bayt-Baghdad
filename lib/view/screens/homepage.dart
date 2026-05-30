@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
 import 'package:menubaghdad/view/widgets/custom_container.dart';
 import 'package:menubaghdad/view/widgets/custom_icons.dart';
+import 'package:menubaghdad/view/widgets/custom_bottom_nav_bar.dart';
 import 'package:menubaghdad/view/widgets/custom_text_field.dart';
 
 import '../../controller/home_controller.dart';
@@ -14,7 +15,10 @@ class HomeScreen extends StatelessWidget {
   final controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    int _selectedIndex = 0;
+    return Scaffold( bottomNavigationBar: CustomBottomNavBar(
+         
+        ),
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -29,7 +33,9 @@ class HomeScreen extends StatelessWidget {
               _allCategory(),
                SizedBox(height: 15),
 
-              _featuredToday()
+              _featuredToday(),
+                 SizedBox(height: 15),
+                 _featuredToday()
             ],
           ),
         ),
@@ -89,6 +95,7 @@ class HomeScreen extends StatelessWidget {
   }
   //──────────────────────────── Banner  ────────────────────────────────────────
 
+  // ignore: non_constant_identifier_names
   Widget _BannerOff(BuildContext context) {
     return Center(
       child: CustomContainer(
@@ -109,7 +116,9 @@ class HomeScreen extends StatelessWidget {
                     end: Alignment.centerRight,
                     colors: [
                       Colors.transparent,
+                      // ignore: deprecated_member_use
                       Colors.black.withOpacity(0.4),
+                      // ignore: deprecated_member_use
                       Colors.black.withOpacity(0.9),
                     ],
                   ),
@@ -150,6 +159,7 @@ class HomeScreen extends StatelessWidget {
   //──────────────────────────── Category  ────────────────────────────────────────
 
   Widget _allCategory() {
+    // ignore: non_constant_identifier_names
     List<Map<String, dynamic>> Categoryitems = [
       {"name": "مشاوي"},
       {"name": "بركر"},
@@ -197,7 +207,7 @@ class HomeScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: Categoryitems.length,
 
-              separatorBuilder: (_, __) => const SizedBox(width: 10),
+              separatorBuilder: (_, _) => const SizedBox(width: 10),
 
               itemBuilder: (context, index) {
                 return Obx(() {
@@ -225,6 +235,7 @@ class HomeScreen extends StatelessWidget {
                                 BoxShadow(
                                   blurRadius: 10,
 
+                                  // ignore: deprecated_member_use
                                   color: AppColors.primaryOrange.withOpacity(
                                     0.3,
                                   ),
@@ -297,7 +308,7 @@ class HomeScreen extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           reverse: true,
           itemCount: 5,
-          separatorBuilder: (_, __) => const SizedBox(width: 15),
+          separatorBuilder: (_, _) => const SizedBox(width: 15),
           itemBuilder: (context, index) {
             return Container(
               width: 280,
