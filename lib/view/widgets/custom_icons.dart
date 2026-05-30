@@ -7,7 +7,7 @@ class CustomIconContainer extends StatelessWidget {
   final Color backgroundColor;
   final double size;
 
-  const CustomIconContainer({
+  const  CustomIconContainer({
     super.key,
     required this.icon,
     this.iconColor = Colors.orange,

@@ -26,5 +26,8 @@ class AppColors {
   static const Color bottomNav = Color(0xFF2A1D19);
 
   // لون البحث
-  static const Color searchFill = Color(0xFF2B1C17);
+  static const Color searchFill = Color(0xFF251C19);
+   // ignore: constant_identifier_names
+   static const Color Orange =     Color(0xFFE65100);
+
 }
