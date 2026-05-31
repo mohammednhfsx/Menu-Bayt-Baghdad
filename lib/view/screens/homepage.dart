@@ -10,6 +10,8 @@ import 'package:menubaghdad/view/widgets/custom_text_field.dart';
 
 import '../../controller/home_controller.dart';
 
+import '../widgets/custom_button.dart';
+
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final searchController = TextEditingController();
@@ -21,6 +23,7 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavBar(),
       backgroundColor: const Color.fromARGB(255, 24, 4, 0),
       body: SafeArea(
+
         child: RefreshIndicator(color: AppColors.white,backgroundColor: AppColors.border,
           onRefresh: () async {
             return Future<void>.value();
@@ -40,6 +43,7 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: 15),
                 _featuredToday(),
               ],
+
             ),
           ),
         ),
@@ -167,7 +171,9 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: 'أهلاً بك في ',
+
                       style: TextStyle(color: AppColors.white),
+
                     ),
                     TextSpan(
                       text: 'منيو بغداد',
