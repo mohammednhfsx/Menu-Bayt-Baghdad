@@ -3,14 +3,14 @@ import "package:menubaghdad/core/theme/app_colors.dart";
 import "package:menubaghdad/view/widgets/custom_button.dart";
 import "../../core/size_extensions.dart";
 
-class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+class CartScreen extends StatefulWidget {
+  const CartScreen({super.key});
 
   @override
-  State<CartPage> createState() => _CartPageState();
+  State<CartScreen> createState() => _CartPageState();
 }
 
-class _CartPageState extends State<CartPage> {
+class _CartPageState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +96,7 @@ Widget cartBody(BuildContext context){
                       width: 30,
                       height: 30,
                       foregroundColor: Colors.red,
+                      // ignore: deprecated_member_use
                       backgroundColor: Colors.red.withOpacity(0.1),
                       shape: BoxShape.circle,
                       child: Icon(Icons.delete_outlined)
@@ -104,6 +105,7 @@ Widget cartBody(BuildContext context){
                     width: 95,
                     height: 37,
                     decoration: BoxDecoration(
+                      // ignore: deprecated_member_use
                       color: AppColors.background.withOpacity(0.5),
                       border: Border.all(
                         color: AppColors.border
@@ -222,6 +224,7 @@ Widget cartBody(BuildContext context){
             fontWeight: FontWeight.bold
           ),
           filled: true,
+          // ignore: deprecated_member_use
           fillColor: AppColors.searchFill.withOpacity(0.3),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),

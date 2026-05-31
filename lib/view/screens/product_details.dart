@@ -194,6 +194,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
       decoration: BoxDecoration(
         color: AppColors.cardColor,
         borderRadius: BorderRadius.circular(20),
+        // ignore: deprecated_member_use
         border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: Row(
@@ -271,6 +272,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
       decoration: BoxDecoration(
         color: AppColors.cardColor,
         borderRadius: BorderRadius.circular(16),
+        // ignore: deprecated_member_use
         border: Border.all(color: Colors.white.withOpacity(0.07)),
       ),
       child: Row(
@@ -333,7 +335,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
   }
 
   Widget _divider() {
-    return Container(width: 1, height: 36, color: Colors.white12);
+    return Container(width: 1, height: 36, color: const Color.fromARGB(31, 248, 229, 229));
   }
 
   // ── Ingredients ─────────────────────────────────────────────
