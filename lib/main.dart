@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:menubaghdad/view/screens/cartpage.dart';
+import 'package:get/get.dart';
 
 import 'package:menubaghdad/view/screens/splash_screen.dart';
 
-void main(){
+import 'controller/home_controller.dart';
+
+void main() {
+      Get.put(HomeController());
+    
+
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
@@ -13,8 +18,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return GetMaterialApp(home: CartPage());
-
+   
+    return  GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
+    );
   }
 }

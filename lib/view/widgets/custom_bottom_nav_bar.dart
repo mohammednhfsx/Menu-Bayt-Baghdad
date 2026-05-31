@@ -41,37 +41,39 @@ class CustomBottomNavBar extends StatelessWidget {
                 horizontal: 12,
                 vertical: 8,
               ),
-              child: Obx(
-                () => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    NavItem(
-                      index: 1,
-                      icon: Icons.receipt_long_outlined,
-                      iconActive: Icons.receipt_long_rounded,
-                      label: 'طلباتي',
-                      selectedIndex: navController.selectedIndex.value,
-                      onTap: navController.changePage,
-                    ),
-                    NavItem(
-                      index: 2,
-                      icon: Icons.shopping_bag_outlined,
-                      iconActive: Icons.shopping_bag_rounded,
-                      label: 'السلة',
-                      selectedIndex: navController.selectedIndex.value,
-                      onTap: navController.changePage,
-                    ),
-                    NavItem(
-                      index: 3,
-                      icon: Icons.home_outlined,
-                      iconActive: Icons.home_rounded,
-                      label: 'الرئيسية',
-                      selectedIndex: navController.selectedIndex.value,
-                      onTap: navController.changePage,
-                    ),
-                  ],
-                ),
-              ),
+            child: Obx(
+  () => Row(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: [
+      NavItem(
+        index: 0,
+        icon: Icons.shopping_bag_outlined,
+        iconActive: Icons.shopping_bag_rounded,
+        label: 'السلة',
+        selectedIndex: navController.selectedIndex.value,
+        onTap: navController.changePage,
+      ),
+
+     
+        NavItem(
+        index: 2,
+        icon: Icons.shopping_bag_outlined,
+        iconActive: Icons.shopping_bag_rounded,
+        label: 'طلباتي',
+        selectedIndex: navController.selectedIndex.value,
+        onTap: navController.changePage,
+      ),
+       NavItem(
+        index: 1,
+        icon: Icons.home_outlined,
+        iconActive: Icons.home_rounded,
+        label: 'الرئيسية',
+        selectedIndex: navController.selectedIndex.value,
+        onTap: navController.changePage,
+      ),
+    ],
+  ),
+),
             ),
           ),
         ),
@@ -108,7 +110,7 @@ class NavItem extends StatelessWidget {
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeInOut,
         padding: const EdgeInsets.symmetric(
-          horizontal: 16,
+          horizontal: 14,
           vertical: 8,
         ),
         decoration: isSelected

@@ -229,6 +229,7 @@ Widget cartBody(BuildContext context){
             fontWeight: FontWeight.bold
           ),
           filled: true,
+          // ignore: deprecated_member_use
           fillColor: AppColors.searchFill.withOpacity(0.3),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),
