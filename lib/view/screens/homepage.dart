@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
   final controller = Get.find<HomeController>();
 
 final pages = [
-  CartScreen(),
+  CartPage(),
   HomeContent(), 
   OrdersScreen(),
 ];
