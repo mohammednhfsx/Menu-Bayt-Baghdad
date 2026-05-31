@@ -45,7 +45,6 @@ class CustomBottomNavBar extends StatelessWidget {
                 () => Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-               
                     NavItem(
                       index: 1,
                       icon: Icons.receipt_long_outlined,
