@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:menubaghdad/view/screens/cartpage.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:menubaghdad/view/screens/homepage.dart';
 
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return const MaterialApp(
+    return const GetMaterialApp(
       home:HomeScreen() ,
     );
   }
