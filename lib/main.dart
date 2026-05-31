@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:menubaghdad/view/screens/cartpage.dart';
+import 'package:menubaghdad/view/screens/homepage.dart';
 
 
 
@@ -15,8 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return const MaterialApp(
-      home:CartPage() ,
-      debugShowCheckedModeBanner: false,
+      home:HomeScreen() ,
     );
   }
 }
