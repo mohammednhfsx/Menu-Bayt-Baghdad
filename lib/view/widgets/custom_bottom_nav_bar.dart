@@ -43,14 +43,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 () => Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    NavItem(
-                      index: 0,
-                      icon: Icons.person_outline_rounded,
-                      iconActive: Icons.person_rounded,
-                      label: 'حسابي',
-                      selectedIndex: navController.selectedIndex.value,
-                      onTap: navController.changePage,
-                    ),
+               
                     NavItem(
                       index: 1,
                       icon: Icons.receipt_long_outlined,

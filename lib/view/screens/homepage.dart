@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:menubaghdad/core/theme/app_colors.dart';
+import 'package:menubaghdad/view/screens/product_details.dart';
 import 'package:menubaghdad/view/widgets/custom_container.dart';
 import 'package:menubaghdad/view/widgets/custom_icons.dart';
 import 'package:menubaghdad/view/widgets/custom_bottom_nav_bar.dart';
@@ -15,28 +16,31 @@ class HomeScreen extends StatelessWidget {
   final controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
-    int _selectedIndex = 0;
-    return Scaffold( bottomNavigationBar: CustomBottomNavBar(
-         
-        ),
-      backgroundColor: AppColors.background,
+    int selectedIndex = 0;
+    return Scaffold(
+      bottomNavigationBar: CustomBottomNavBar(),
+      backgroundColor: const Color.fromARGB(255, 24, 4, 0),
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildHeader(),
-              SizedBox(height: 15),
-              CustomTextField(controller: searchController),
-              SizedBox(height: 25),
-              _BannerOff(context),
-              SizedBox(height: 15),
-              _allCategory(),
-               SizedBox(height: 15),
-
-              _featuredToday(),
-                 SizedBox(height: 15),
-                 _featuredToday()
-            ],
+        child: RefreshIndicator(color: AppColors.white,backgroundColor: AppColors.border,
+          onRefresh: () async {
+            return Future<void>.value();
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildHeader(context),
+                SizedBox(height: 15),
+                CustomTextField(controller: searchController),
+                SizedBox(height: 25),
+                _BannerOff(context),
+                SizedBox(height: 15),
+                _allCategory(),
+                SizedBox(height: 15),
+                _featuredToday(),
+                SizedBox(height: 15),
+                _featuredToday(),
+              ],
+            ),
           ),
         ),
       ),
@@ -45,14 +49,99 @@ class HomeScreen extends StatelessWidget {
 
   //──────────────────────────── Header ────────────────────────────────────────
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           //  icon
-          CustomIconContainer(icon: Icons.notifications_outlined),
+          Row(
+            children: [
+              CustomIcon(icon: Icons.notifications_outlined),
+              SizedBox(width: 10),
+              InkWell(
+                onTap: () {},
+                child: CustomIcon(
+                  icon: Icons.settings,
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      barrierColor: Colors.transparent,
+                      builder: (context) {
+                        return Align(
+                          alignment: Alignment.topRight,
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 70, right: 16),
+                            width: 320,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: const Color.fromARGB(
+                                    255,
+                                    247,
+                                    216,
+                                    207,
+                                  ),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Directionality(  textDirection: TextDirection.rtl,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "الاعدادات",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                                color: AppColors.background,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      const Divider(height: 1),
+                                  
+                                      _settingItem(
+                                        icon: Icons.language,
+                                        title: "اللغة",
+                                        onTap: () {},
+                                      ),
+                                  
+                                      _settingItem(
+                                        icon: Icons.support_agent,
+                                        title: "الدعم الفني",
+                                        onTap: () {},
+                                      ),
+                                  
+                                      _settingItem(
+                                        icon: Icons.contact_support,
+                                        title: "تواصل معنا",
+                                        onTap: () {},
+                                      ),
+                                  
+                                    
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
 
           //────────── Address + greeting ─────────────────────
           Column(
@@ -93,6 +182,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
   //──────────────────────────── Banner  ────────────────────────────────────────
 
   // ignore: non_constant_identifier_names
@@ -111,6 +201,10 @@ class HomeScreen extends StatelessWidget {
 
               Container(
                 decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.15),
+                    width: 1,
+                  ),
                   gradient: LinearGradient(
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
@@ -199,7 +293,7 @@ class HomeScreen extends StatelessWidget {
         ),
         SizedBox(height: 15),
         SizedBox(
-          height: 80,
+          height: 60,
           child: Directionality(
             textDirection: TextDirection.rtl,
             child: ListView.separated(
@@ -218,9 +312,13 @@ class HomeScreen extends StatelessWidget {
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.linear,
-                      width: isSelected ? 120 : 110,
+                      width: isSelected ? 90 : 70,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.15),
+                          width: 1,
+                        ),
                         gradient: isSelected
                             ? const LinearGradient(
                                 begin: Alignment.topLeft,
@@ -268,189 +366,193 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-
   //──────────────────────────── featuredToday  ────────────────────────────────────────
 
-
   Widget _featuredToday() {
-  return Column(
-    children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: const [
-            Text(
-              "عرض الكل",
-              style: TextStyle(
-                color: AppColors.primaryOrange,
-                fontSize: 15,
-              ),
-            ),
-            Text(
-              "المميز اليوم",
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-
-      const SizedBox(height: 15),
-
-      SizedBox(
-        height: 320,
-        child: ListView.separated(
+    return Column(
+      children: [
+        Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          scrollDirection: Axis.horizontal,
-          reverse: true,
-          itemCount: 5,
-          separatorBuilder: (_, _) => const SizedBox(width: 15),
-          itemBuilder: (context, index) {
-            return Container(
-              width: 280,
-              decoration: BoxDecoration(
-                color: AppColors.bottomNav,
-                borderRadius: BorderRadius.circular(25),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Text(
+                "عرض الكل",
+                style: TextStyle(color: AppColors.primaryOrange, fontSize: 15),
               ),
+              Text(
+                "المميز اليوم",
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
 
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(25),
-                        ),
-                        child: Image.asset(
-                          "assets/image/download.jpg",
-                          height: 170,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+        const SizedBox(height: 15),
 
-                      Positioned(
-                        top: 10,
-                        right: 10,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xffF4A62A),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Text(
-                            "مميز",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      Positioned(
-                        bottom: 10,
-                        left: 10,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Row(
-                            children: [
-                              Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                                size: 16,
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                "4.9",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+        SizedBox(
+          height: 320,
+          child: ListView.separated(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            scrollDirection: Axis.horizontal,
+            reverse: true,
+            itemCount: 5,
+            separatorBuilder: (_, _) => const SizedBox(width: 15),
+            itemBuilder: (context, index) {
+              return InkWell(onTap: () {
+                Get.to(DetailScreen());
+              },
+                child: Container(
+                  width: 280,
+                  decoration: BoxDecoration(
+                    color: AppColors.bottomNav,
+                    borderRadius: BorderRadius.circular(25),
                   ),
-
-                  Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Text(
-                          "مسكوف بغدادي",
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        const Text(
-                          "سمك مشوي على الطريقة البغدادية الأصيلة",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            color: AppColors.greyText,
-                          ),
-                        ),
-
-                        const SizedBox(height: 12),
-
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.access_time,
-                              color: AppColors.greyText,
-                              size: 18,
+                
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(25),
                             ),
-
-                            const SizedBox(width: 5),
-
-                            const Text(
-                              "35 د",
-                              style: TextStyle(
-                                color: AppColors.greyText,
+                            child: Image.asset(
+                              "assets/image/download.jpg",
+                              height: 170,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                
+                          Positioned(
+                            top: 10,
+                            right: 10,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xffF4A62A),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Text(
+                                "مميز",
+                                style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
-
-                            const Spacer(),
-
-                            Text(
-                              "٢٨,٠٠٠ د.ع",
+                          ),
+                
+                          Positioned(
+                            bottom: 10,
+                            left: 10,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 5,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black54,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Row(
+                                children: [
+                                  Icon(Icons.star, color: Colors.amber, size: 16),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    "4.9",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Text(
+                              "مسكوف بغدادي",
                               style: TextStyle(
-                                color: AppColors.primaryOrange,
+                                color: AppColors.white,
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                
+                            const SizedBox(height: 8),
+                
+                            const Text(
+                              "سمك مشوي على الطريقة البغدادية الأصيلة",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(color: AppColors.greyText),
+                            ),
+                
+                            const SizedBox(height: 12),
+                
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.access_time,
+                                  color: AppColors.greyText,
+                                  size: 18,
+                                ),
+                
+                                const SizedBox(width: 5),
+                
+                                const Text(
+                                  "35 د",
+                                  style: TextStyle(color: AppColors.greyText),
+                                ),
+                
+                                const Spacer(),
+                
+                                Text(
+                                  "٢٨,٠٠٠ د.ع",
+                                  style: TextStyle(
+                                    color: AppColors.primaryOrange,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          },
+                ),
+              );
+            },
+          ),
         ),
-      ),
-    ],
-  );
-}
+      ],
+    );
+  }
+
+  //──────────────────────────── setting  ────────────────────────────────────────
+
+  Widget _settingItem({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return ListTile(
+      leading: Icon(icon, color: Colors.orange),
+      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
+      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+      onTap: onTap,
+    );
+  }
 }
