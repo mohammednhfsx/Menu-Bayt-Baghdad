@@ -24,6 +24,7 @@ class HomeScreen extends StatelessWidget {
                         height: 75, 
                         foregroundColor: AppColors.whiteText,
                         backgroundColor: AppColors.primaryOrange,
+                        shape: BoxShape.rectangle,
                         child: Column(
                           children: [
                             Icon(Icons.eighteen_mp),

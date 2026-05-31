@@ -10,7 +10,7 @@ class CustomButton extends StatelessWidget {
   final Color foregroundColor;
   final VoidCallback? onTap;
   final List<Color>? gradiantColors;
-  final BoxShape? shape;
+  final BoxShape shape;
 
   const CustomButton({super.key,
     required this.width,
@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
     required this.foregroundColor,
     this.onTap,
     this.gradiantColors,
-    this.shape});
+    required this.shape});
 
   @override
   Widget build(BuildContext context) {
@@ -57,17 +57,14 @@ class CustomButton extends StatelessWidget {
         padding: .zero,
 
         decoration: BoxDecoration(
-          borderRadius: shape == null ? BorderRadius.circular(25) : null,
+          borderRadius: shape == BoxShape.rectangle ? BorderRadius.circular(25) : null,
           gradient: gradiantColors != null ? LinearGradient(
               colors: gradiantColors!,
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               stops: [0.1, 0.5]
           ) : null,
-          border: Border.all(
-            color: AppColors.border
-          ),
-          shape: shape!,
+          shape: shape,
           color: gradiantColors == null ? backgroundColor : null,
         ),
 
@@ -79,7 +76,7 @@ class CustomButton extends StatelessWidget {
 
           child: DefaultTextStyle(
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 12,
                 color: foregroundColor,
               ),
           child: centeredChild),
