@@ -223,7 +223,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                const Text(
+                Text(
                   'كباب مشكل',
                   style: TextStyle(
                     color: AppColors.white,
@@ -244,10 +244,10 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: 6),
 
                 // ── السطر الثاني: الوصف بعرض كامل ──
-                const Text(
+                Text(
                   'لحم ضأن مشوي مع رز بسمتي وزعفران',
                   textAlign: TextAlign.right,
                   style: TextStyle(
