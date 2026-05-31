@@ -1,33 +1,32 @@
-import 'dart:ui';
+
+
+import 'package:flutter/material.dart';
 
 class AppColors {
-  // الخلفية الرئيسية
-  static const Color background = Color(0xFF120806);
-
-  // لون الكاردات والكونتينرات
-  static const Color cardColor = Color(0xFF241714);
-
-  // البرتقالي الأساسي
-  static const Color primaryOrange = Color(0xFFFF8C32);
-
-  // برتقالي غامق
-  static const Color darkOrange = Color(0xFFAF6E0C);
-
-  // نص أبيض
-  static const Color white = Color(0xFFF5F5F5);
-
-  // نص رمادي فاتح
-  static const Color greyText = Color(0xFFA59B95);
-
-  // حدود خفيفة
-  static const Color border = Color(0xFF3A2A24);
-
-  // لون الكونتينر الشفاف السفلي
+  // ── Backgrounds ──────────────────────────────────────────
+    static const Color background = Color(0xFF120806);
   static const Color bottomNav = Color(0xFF2A1D19);
-
-  // لون البحث
+  static const Color cardColor = Color(0xFF241714);
+  static const Color border = Color(0xFF3A2A24);
   static const Color searchFill = Color(0xFF251C19);
-   // ignore: constant_identifier_names
-   static const Color Orange =     Color(0xFFE65100);
 
+  // ── Brand ────────────────────────────────────────────────
+  static const Color primaryOrange = Color(0xFFE8A020);
+  static const Color Orange        = Color(0xFFF5B942);
+  static const Color darkOrange    = Color(0xFFC47D10);
+
+  // ── Text ─────────────────────────────────────────────────
+  static const Color white     = Color(0xFFFFFFFF);
+  static const Color greyText  = Color(0xFF9A9A9A);
+
+  // ── Status ───────────────────────────────────────────────
+  static const Color red   = Color(0xFFE84020);
+  static const Color green = Color(0xFF2A7A2A);
+
+  // ── Gradient helpers ─────────────────────────────────────
+  static const LinearGradient orangeGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFE65100), Color(0xFFFF9800)],
+  );
 }
