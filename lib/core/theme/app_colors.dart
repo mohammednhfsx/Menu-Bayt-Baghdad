@@ -14,7 +14,7 @@ class AppColors {
   static const Color darkOrange = Color(0xFFAF6E0C);
 
   // نص أبيض
-  static const Color whiteText = Color(0xFFF5F5F5);
+  static const Color white = Color(0xFFF5F5F5);
 
   // نص رمادي فاتح
   static const Color greyText = Color(0xFFA59B95);

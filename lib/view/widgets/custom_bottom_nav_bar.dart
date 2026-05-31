@@ -23,12 +23,14 @@ class CustomBottomNavBar extends StatelessWidget {
         ),
         child: Container(
           decoration: BoxDecoration(
+            // ignore: deprecated_member_use
             color: Colors.white.withOpacity(0.08),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(24),
               topRight: Radius.circular(24),
             ),
             border: Border.all(
+              // ignore: deprecated_member_use
               color: Colors.white.withOpacity(0.15),
               width: 1,
             ),
@@ -123,6 +125,7 @@ class NavItem extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
+                    // ignore: deprecated_member_use
                     color: const Color(0xFFE8521A).withOpacity(0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),

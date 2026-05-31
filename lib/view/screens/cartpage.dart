@@ -49,7 +49,7 @@ Widget cartHeader(BuildContext context){
       // --------------------- ثابت (سلة الطلبات) ---------------------
       Text("سلة الطلبات",
       style: TextStyle(
-        color: AppColors.whiteText,
+        color: AppColors.white,
         fontWeight: .bold
       ),),
 
@@ -62,7 +62,7 @@ Widget cartHeader(BuildContext context){
         },
         backgroundColor: AppColors.cardColor,
         shape: BoxShape.circle,
-        foregroundColor: AppColors.whiteText,
+        foregroundColor: AppColors.white,
         child: Icon(Icons.arrow_forward_ios),
       ),
     ],
@@ -133,7 +133,7 @@ Widget cartBody(BuildContext context){
                         ),
                         Text("1",
                         style: TextStyle(
-                          color: AppColors.whiteText
+                          color: AppColors.white
                         ),),
                         GestureDetector(
                           onTap: (){},
@@ -168,7 +168,7 @@ Widget cartBody(BuildContext context){
                 children: [
                   Text("دولمة عراقية",
                   style: TextStyle(
-                    color: AppColors.whiteText,
+                    color: AppColors.white,
                     fontWeight: FontWeight.bold
                   ),),
                   Text("ورق عنب محشي بالرز والخضار على النار الهادئة",
@@ -256,7 +256,7 @@ Widget cartBody(BuildContext context){
                 children: [
                   Text("18,000 د.ع",
                     style: TextStyle(
-                        color: AppColors.whiteText
+                        color: AppColors.white
                     ),),
                   Text("المجموع الفرعي",
                   style: TextStyle(
@@ -269,7 +269,7 @@ Widget cartBody(BuildContext context){
                 children: [
                   Text("0,000 د.ع",
                     style: TextStyle(
-                        color: AppColors.whiteText
+                        color: AppColors.white
                     ),),
                   Text("الخصم",
                     style: TextStyle(
@@ -285,7 +285,7 @@ Widget cartBody(BuildContext context){
                 children: [
                   Text("18,000 د.ع",
                     style: TextStyle(
-                        color: AppColors.whiteText
+                        color: AppColors.white
                     ),),
                   Text("الاجمالي",
                     style: TextStyle(

@@ -11,6 +11,7 @@ class _Extra {
   final String name;
   final String price;
   bool selected;
+  // ignore: unused_element_parameter
   _Extra({required this.name, required this.price, this.selected = false});
 }
 
@@ -102,7 +103,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
               'assets/image/download.jpg',
               fit: BoxFit.cover,
               // Fallback colour if asset missing
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (_, _, _) => Container(
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
