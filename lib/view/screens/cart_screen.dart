@@ -1,31 +1,26 @@
 import "package:flutter/material.dart";
+import "package:get/get.dart";
+import "package:menubaghdad/controller/cart_controller.dart";
 import "package:menubaghdad/core/theme/app_colors.dart";
 import "package:menubaghdad/view/widgets/custom_button.dart";
 import "../../core/size_extensions.dart";
 
-class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+class CartPage extends StatelessWidget {
+  const CartPage({super.key});
 
-  @override
-  State<CartScreen> createState() => _CartPageState();
-}
-
-class _CartPageState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Center(
-              child: Column(
-                children: [
-                  cartHeader(context),
-                  cartBody(context)
-                ],
-              ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Column(
+              children: [
+                cartHeader(context),
+                cartBody(context)
+              ],
             ),
           ),
         ),
@@ -33,6 +28,7 @@ class _CartPageState extends State<CartScreen> {
     );
   }
 }
+
 
 Widget cartHeader(BuildContext context){
   return Row(
@@ -70,13 +66,16 @@ Widget cartHeader(BuildContext context){
 }
 
 Widget cartBody(BuildContext context){
+
+  CartController cartController = Get.put(CartController());
+
   return Column(
     spacing: 25,
     children: [
       // Items (تستخدم List View لاحقا)
       Container(
         height: AppSize.screenHeight(context) * 0.12,
-        width: AppSize.screenWidth(context) * 0.95,
+        width: AppSize.screenWidth(context),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
           color: AppColors.cardColor,
@@ -84,85 +83,91 @@ Widget cartBody(BuildContext context){
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
-            spacing: 15,
+            spacing: AppSize.screenWidth(context) * 0.02,
             mainAxisAlignment: .end,
             children: [
               // --------------------- Delete Button / Add More or Remove Buttons ---------------------
-              Column(
-                mainAxisAlignment: .spaceBetween,
-                crossAxisAlignment: .start,
-                children: [
-                  CustomButton(
-                      width: 30,
-                      height: 30,
-                      foregroundColor: Colors.red,
-                      // ignore: deprecated_member_use
-                      backgroundColor: Colors.red.withOpacity(0.1),
-                      shape: BoxShape.circle,
-                      child: Icon(Icons.delete_outlined)
-                  ),
-                  Container(
-                    width: 95,
-                    height: 37,
-                    decoration: BoxDecoration(
-                      // ignore: deprecated_member_use
-                      color: AppColors.background.withOpacity(0.5),
-                      border: Border.all(
-                        color: AppColors.border
-                      ),
-                      borderRadius: BorderRadius.circular(25)
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Column(
+                  mainAxisAlignment: .spaceBetween,
+                  crossAxisAlignment: .start,
+                  children: [
+                    CustomButton(
+                        width: 30,
+                        height: 30,
+                        foregroundColor: Colors.red,
+                        backgroundColor: Colors.red.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                        child: Icon(Icons.delete_outlined)
                     ),
-                    child: Row(
-                      mainAxisAlignment: .spaceAround,
-                      children: [
-                        GestureDetector(
-                          onTap: (){},
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [Color(0xFFE65100), Color(0xFFFF9800)]
-                              )
-                            ),
-                            child: Icon(Icons.add,
-                            color: Colors.black,
-                            size: 20,),
-                          ),
+                    Container(
+                      width: 95,
+                      height: 37,
+                      decoration: BoxDecoration(
+                        color: AppColors.background.withOpacity(0.5),
+                        border: Border.all(
+                          color: AppColors.border
                         ),
-                        Text("1",
-                        style: TextStyle(
-                          color: AppColors.white
-                        ),),
-                        GestureDetector(
-                          onTap: (){},
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
+                        borderRadius: BorderRadius.circular(25)
+                      ),
+                      child: Obx(
+                        () => Row(
+                          mainAxisAlignment: .spaceAround,
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+                                cartController.increment();
+                              },
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: LinearGradient(
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                     colors: [Color(0xFFE65100), Color(0xFFFF9800)]
-                                )
+                                  )
+                                ),
+                                child: Icon(Icons.add,
+                                color: Colors.black,
+                                size: 20,),
+                              ),
                             ),
-                            child: Icon(Icons.remove,
-                              color: Colors.black,
-                              size: 20,),
-                          ),
+                            Text("${cartController.itemTotal}",
+                            style: TextStyle(
+                              color: AppColors.white
+                            ),),
+                            GestureDetector(
+                              onTap: (){
+                                cartController.decrement();
+                              },
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [Color(0xFFE65100), Color(0xFFFF9800)]
+                                    )
+                                ),
+                                child: Icon(Icons.remove,
+                                  color: Colors.black,
+                                  size: 20,),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  )
+                      ),
+                    )
 
-                ],
+                  ],
+                ),
               ),
               Spacer(),
-
               // --------------------- Item Information ---------------------
               Column(
                 mainAxisAlignment: .spaceEvenly,
@@ -193,7 +198,7 @@ Widget cartBody(BuildContext context){
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     image: DecorationImage(
-                        image: AssetImage("assets/images/Dolma.jpg"),
+                        image: AssetImage("assets/image/Dolma.jpg"),
                         fit: BoxFit.cover
                     )
                 ),
