@@ -48,7 +48,7 @@ class CustomBottomNavBar extends StatelessWidget {
          NavItem(
         index: 3,
         icon: Icons.settings,
-        iconActive: Icons.home_rounded,
+        iconActive: Icons.settings,
         label: 'الاعدادات',
         selectedIndex: navController.selectedIndex.value,
         onTap: navController.changePage,

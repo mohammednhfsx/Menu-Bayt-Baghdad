@@ -37,15 +37,6 @@ class OrderModel {
 
   bool get isAlmostDone => secondsLeft.value < 5 * 60;
 
-
-
-
-
-
-  
-
-  
-
   // تحويل الـ status من نص (Supabase) إلى enum
   static OrderStatus statusFromString(String s) {
     switch (s) {

@@ -304,45 +304,63 @@ class OrdersScreen extends StatelessWidget {
 
         // ─ العداد التنازلي ─
         Obx(() {
-          // لو تم التسليم ما نعرض عداد
-          if (order.status == OrderStatus.delivered) {
-            return const Text(
-              'تم التسليم ✅',
-              style: TextStyle(color: Colors.green, fontSize: 13),
-            );
-          }
+       // ─ لو العداد وصل للصفر ─
+  if (order.secondsLeft.value <= 0) {
+    return Row(
+      children: const [
+        Icon(Icons.check_circle, color: Colors.green, size: 20),
+        SizedBox(width: 6),
+        Text(
+          'جاهز للاستلام',
+          style: TextStyle(
+            color: Colors.green,
+            fontWeight: FontWeight.bold,
+            fontSize: 13,
+          ),
+        ),
+      ],
+    );
+  }
 
-          return Row(
-            children: [
-              // دائرة صغيرة
-              SizedBox(
-                width: 28,
-                height: 28,
-                child: CircularProgressIndicator(
-                  value: order.progress,
-                  strokeWidth: 3,
-                  backgroundColor: AppColors.border,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    order.isAlmostDone
-                        ? Colors.green
-                        : AppColors.primaryOrange,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              // الوقت
-              Text(
-                order.timeFormatted,
-                style: TextStyle(
-                  color: order.isAlmostDone
-                      ? Colors.green
-                      : AppColors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          );
+  // ─ لو تم التسليم ─
+  if (order.status == OrderStatus.delivered) {
+    return const Text(
+      'تم التسليم ✅',
+      style: TextStyle(color: Colors.green, fontSize: 13),
+    );
+  }
+
+  // ─ العداد شغال ─
+  return Row(
+    children: [
+      SizedBox(
+        width: 28,
+        height: 28,
+        child: CircularProgressIndicator(
+          value: order.progress,
+          strokeWidth: 3,
+          backgroundColor: AppColors.border,
+          valueColor: AlwaysStoppedAnimation<Color>(
+            order.isAlmostDone
+                ? Colors.green
+                : AppColors.primaryOrange,
+          ),
+        ),
+      ),
+      const SizedBox(width: 8),
+      Text(
+        order.timeFormatted,
+        style: TextStyle(
+          color: order.isAlmostDone
+              ? Colors.green
+              : AppColors.white,
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ],
+  );
+
         }),
       ],
     ),

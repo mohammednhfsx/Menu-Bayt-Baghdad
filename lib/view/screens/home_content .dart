@@ -383,7 +383,7 @@ final filtered = menuCtrl.menuItems.where((item) {
                 final item = filtered[index]; // ← كل وجبة من Supabase
 
                 return InkWell(
-                  onTap: () => Get.to(DetailScreen()),
+                  onTap: () => Get.to(DetailScreen(item: item)),
                   child: Container(
                     width: 280,
                     decoration: BoxDecoration(
