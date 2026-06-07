@@ -6,11 +6,9 @@ class Setting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.cardColor,
-      body: SafeArea(child: 
-      
-      Column(children: [
+      body: const SafeArea(child: Column(children: [
         
 
 

@@ -45,6 +45,15 @@ class CustomBottomNavBar extends StatelessWidget {
   () => Row(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
+         NavItem(
+        index: 3,
+        icon: Icons.settings,
+        iconActive: Icons.home_rounded,
+        label: 'الاعدادات',
+        selectedIndex: navController.selectedIndex.value,
+        onTap: navController.changePage,
+      ),
+     
       NavItem(
         index: 0,
         icon: Icons.shopping_bag_outlined,
@@ -53,6 +62,7 @@ class CustomBottomNavBar extends StatelessWidget {
         selectedIndex: navController.selectedIndex.value,
         onTap: navController.changePage,
       ),
+      
 
      
         NavItem(
@@ -63,7 +73,8 @@ class CustomBottomNavBar extends StatelessWidget {
         selectedIndex: navController.selectedIndex.value,
         onTap: navController.changePage,
       ),
-       NavItem(
+     
+         NavItem(
         index: 1,
         icon: Icons.home_outlined,
         iconActive: Icons.home_rounded,
@@ -71,6 +82,7 @@ class CustomBottomNavBar extends StatelessWidget {
         selectedIndex: navController.selectedIndex.value,
         onTap: navController.changePage,
       ),
+        
     ],
   ),
 ),

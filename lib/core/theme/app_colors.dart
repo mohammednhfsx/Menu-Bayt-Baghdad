@@ -22,6 +22,7 @@ class AppColors {
   // ── Status ───────────────────────────────────────────────
   static const Color red   = Color(0xFFE84020);
   static const Color green = Color(0xFF2A7A2A);
+  static const Color blue = Colors.blue;
 
   // ── Gradient helpers ─────────────────────────────────────
   static const LinearGradient orangeGradient = LinearGradient(

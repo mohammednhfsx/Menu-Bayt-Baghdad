@@ -62,7 +62,7 @@ class CustomButton extends StatelessWidget {
               colors: gradiantColors!,
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              stops: [0.1, 0.5]
+              stops: const [0.1, 0.5]
           ) : null,
           shape: shape,
           color: gradiantColors == null ? backgroundColor : null,

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:menubaghdad/controller/cart_controller.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
+import 'package:menubaghdad/model/cart_model.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
@@ -112,11 +115,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                   ),
                 ),
                 child: const Center(
-                  child: Icon(
-                    Icons.fastfood,
-                    color: AppColors.white,
-                    size: 80,
-                  ),
+                  child: Icon(Icons.fastfood, color: AppColors.white, size: 80),
                 ),
               ),
             ),
@@ -126,32 +125,25 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, AppColors.background,],
+                  colors: [Colors.transparent, AppColors.background],
                   stops: [0.55, 1.0],
                 ),
               ),
             ),
+
             // Top buttons
-            
-               Padding(
-                padding:  EdgeInsets.only(top: 
-                  70,
-                  left: 20
-          
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start
-                  ,
-                  children: [
-                   
-                    _circleBtn(
-                      Icons.arrow_back_ios,
-                      onTap: () => Navigator.maybePop(context),
-                    ),
-                  ],
-                ),
-              
+            Padding(
+              padding: const EdgeInsets.only(top: 70, left: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _circleBtn(
+                    Icons.arrow_back_ios,
+                    onTap: () => Navigator.maybePop(context),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -165,7 +157,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
       child: Container(
         width: 40,
         height: 40,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.black45,
           shape: BoxShape.circle,
         ),
@@ -335,7 +327,11 @@ class _ItemDetailScreenState extends State<DetailScreen> {
   }
 
   Widget _divider() {
-    return Container(width: 1, height: 36, color: const Color.fromARGB(31, 248, 229, 229));
+    return Container(
+      width: 1,
+      height: 36,
+      color: const Color.fromARGB(31, 248, 229, 229),
+    );
   }
 
   // ── Ingredients ─────────────────────────────────────────────
@@ -555,7 +551,23 @@ class _ItemDetailScreenState extends State<DetailScreen> {
             // Button
             Expanded(
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  final cart = Get.find<CartController>();
+                  cart.addItem(
+                    // مؤقتاً — لاحقاً يجي من Supabase
+                    CartItem(
+                      id: 'kabab_01',
+                      name: 'كباب مشكل',
+                      description: 'لحم ضأن مشوي مع رز بسمتي',
+                      price: 22000,
+                      imageAsset: 'assets/image/splash.jpg',
+                      quantity: _qty,
+                    ),
+                  );
+
+                  Get.back();
+                  Get.snackbar('تمت الإضافة', 'كباب مشكل أُضيف للسلة',backgroundColor: AppColors.darkOrange,colorText: AppColors.white);
+                },
                 child: Container(
                   height: 54,
                   decoration: BoxDecoration(

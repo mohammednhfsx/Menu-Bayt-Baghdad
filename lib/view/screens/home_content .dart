@@ -1,47 +1,65 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide MenuController;
 import 'package:get/get.dart';
 import 'package:menubaghdad/controller/home_controller.dart';
+import 'package:menubaghdad/controller/menu_controller.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
 import 'package:menubaghdad/view/screens/product_details.dart';
 import 'package:menubaghdad/view/widgets/custom_container.dart';
 import 'package:menubaghdad/view/widgets/custom_icons.dart';
 import 'package:menubaghdad/view/widgets/custom_text_field.dart';
 
-class HomeContent  extends StatelessWidget {
-    final searchController = TextEditingController();
-    final controller = Get.find<HomeController>();
-   HomeContent ({super.key});
+class HomeContent extends StatelessWidget {
+  final searchController = TextEditingController();
+  final controller = Get.find<HomeController>();
+  final AppMenuController menuCtrl = Get.put(AppMenuController());
+  HomeContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return   SafeArea(
-          child: RefreshIndicator(
-            color: AppColors.white,
-            backgroundColor: AppColors.border,
-            onRefresh: () async {
-              return Future<void>.value();
-            },
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildHeader(context),
-                  SizedBox(height: 15),
-                  CustomTextField(controller: searchController),
-                  SizedBox(height: 25),
-                  _BannerOff(context),
-                  SizedBox(height: 15),
-                  _allCategory(),
-                  SizedBox(height: 15),
-                  _featuredToday(),
-                  SizedBox(height: 15),
-                  _featuredToday(),
-                ],
-              ),
+    return SafeArea(
+      child: Obx(() {
+        // ─ شاشة لودنك واحدة لكل شيء ─
+        if (menuCtrl.isLoading.value) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(color: AppColors.primaryOrange),
+                const SizedBox(height: 16),
+                const Text(
+                  'جاري تحميل المنيو...',
+                  style: TextStyle(color: AppColors.greyText),
+                ),
+              ],
+            ),
+          );
+        }
+
+        // ─ المحتوى الكامل بعد التحميل ─
+        return RefreshIndicator(
+          color: AppColors.white,
+          backgroundColor: AppColors.border,
+          onRefresh: () async => await menuCtrl.fetchMenu(),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildHeader(context),
+                const SizedBox(height: 15),
+                CustomTextField(controller: searchController),
+                const SizedBox(height: 25),
+                _BannerOff(context),
+                const SizedBox(height: 15),
+                _allCategory(),
+                const SizedBox(height: 15),
+                _featuredToday(),
+                const SizedBox(height: 24),
+                   _featuredToday(),
+              ],
             ),
           ),
         );
-    
-    
+      }),
+    );
   }
 
   //──────────────────────────── Header ────────────────────────────────────────
@@ -56,87 +74,7 @@ class HomeContent  extends StatelessWidget {
           Row(
             children: [
               CustomIcon(icon: Icons.notifications_outlined),
-              SizedBox(width: 10),
-              InkWell(
-                onTap: () {},
-                child: CustomIcon(
-                  icon: Icons.settings,
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      barrierColor: Colors.transparent,
-                      builder: (context) {
-                        return Align(
-                          alignment: Alignment.topRight,
-                          child: Container(
-                            margin: const EdgeInsets.only(top: 70, right: 16),
-                            width: 320,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: const Color.fromARGB(
-                                    255,
-                                    247,
-                                    216,
-                                    207,
-                                  ),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Directionality(  textDirection: TextDirection.rtl,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      const Padding(
-                                        padding: EdgeInsets.all(16),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "الاعدادات",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
-                                                color: AppColors.background,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const Divider(height: 1),
-                                  
-                                      _settingItem(
-                                        icon: Icons.language,
-                                        title: "اللغة",
-                                        onTap: () {},
-                                      ),
-                                  
-                                      _settingItem(
-                                        icon: Icons.support_agent,
-                                        title: "الدعم الفني",
-                                        onTap: () {},
-                                      ),
-                                  
-                                      _settingItem(
-                                        icon: Icons.contact_support,
-                                        title: "تواصل معنا",
-                                        onTap: () {},
-                                      ),
-                                  
-                                    
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
+              const SizedBox(width: 10),
             ],
           ),
 
@@ -166,7 +104,6 @@ class HomeContent  extends StatelessWidget {
                       text: 'أهلاً بك في ',
 
                       style: TextStyle(color: AppColors.white),
-
                     ),
                     TextSpan(
                       text: 'منيو بغداد',
@@ -253,22 +190,6 @@ class HomeContent  extends StatelessWidget {
   //──────────────────────────── Category  ────────────────────────────────────────
 
   Widget _allCategory() {
-    // ignore: non_constant_identifier_names
-    List<Map<String, dynamic>> Categoryitems = [
-      {"name": "مشاوي"},
-      {"name": "بركر"},
-      {"name": "بيتزا"},
-      {"name": "عصائر"},
-      {"name": "ريزو"},
-      {"name": "مقبلات"},
-      {"name": "شرقي"},
-      {"name": "بركر"},
-      {"name": "بيتزا"},
-      {"name": "عصائر"},
-      {"name": "ريزو"},
-      {"name": "مقبلات"},
-      {"name": "شرقي"},
-    ];
     return Column(
       children: [
         Padding(
@@ -277,11 +198,11 @@ class HomeContent  extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "عرض الكل",
+                'عرض الكل',
                 style: TextStyle(fontSize: 15, color: AppColors.primaryOrange),
               ),
               Text(
-                "الأقسام",
+                'الأقسام',
                 style: TextStyle(
                   fontSize: 20,
                   color: AppColors.white,
@@ -291,257 +212,313 @@ class HomeContent  extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         SizedBox(
           height: 60,
-          child: Directionality(
-            textDirection: TextDirection.rtl,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              scrollDirection: Axis.horizontal,
-              itemCount: Categoryitems.length,
+          child: Obx(() {
+        
+          final allCategories = menuCtrl.categories;
 
-              separatorBuilder: (_, _) => const SizedBox(width: 10),
+            return Directionality(
+              textDirection: TextDirection.rtl,
+              child: ListView.separated(
+    
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                scrollDirection: Axis.horizontal,
+                itemCount: allCategories.length,
+                separatorBuilder: (_, _) => const SizedBox(width: 10),
+                itemBuilder: (context, index) {
+                  final cat = allCategories[index];
 
-              itemBuilder: (context, index) {
-                return Obx(() {
-                  final isSelected = controller.selectedCategory.value == index;
+                  return Obx(() {
+                    final isSelected =
+                        controller.selectedCategory.value == (index );
 
-                  return GestureDetector(
-                    onTap: () => controller.changeCategory(index),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.linear,
-                      width: isSelected ? 90 : 70,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          // ignore: deprecated_member_use
-                          color: Colors.white.withOpacity(0.15),
-                          width: 1,
-                        ),
-                        gradient: isSelected
-                            ? const LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [Color(0xFFE65100), Color(0xFFFF9800)],
-                              )
-                            : null,
-                        color: isSelected ? null : AppColors.bottomNav,
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: isSelected
-                            ? [
-                                BoxShadow(
-                                  blurRadius: 10,
-
-                                  // ignore: deprecated_member_use
-                                  color: AppColors.primaryOrange.withOpacity(
-                                    0.3,
-                                  ),
-                                ),
-                              ]
-                            : [],
-                      ),
-                      child: AnimatedDefaultTextStyle(
+                    return GestureDetector(
+                      onTap: () => controller.changeCategory(index ),
+                      child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontSize: isSelected ? 18 : 16,
-                          fontWeight: isSelected
-                              ? FontWeight.bold
-                              : FontWeight.normal,
+                        width: isSelected ? 90 : 70,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.15),
+                            width: 1,
+                          ),
+                          gradient: isSelected
+                              ? const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Color(0xFFE65100),
+                                    Color(0xFFFF9800),
+                                  ],
+                                )
+                              : null,
+                          color: isSelected ? null : AppColors.bottomNav,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    blurRadius: 10,
+                                    color: AppColors.primaryOrange.withOpacity(
+                                      0.3,
+                                    ),
+                                  ),
+                                ]
+                              : [],
                         ),
-                        child: Text(
-                          Categoryitems[index]["name"],
-                          textAlign: TextAlign.center,
+                        child: AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 300),
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: isSelected ? 18 : 16,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
+                          child: Text(cat['name'], textAlign: TextAlign.center),
                         ),
                       ),
-                    ),
-                  );
-                });
-              },
-            ),
-          ),
+                    );
+                  });
+                },
+              ),
+            );
+          }),
         ),
       ],
     );
   }
-
   //──────────────────────────── featuredToday  ────────────────────────────────────────
 
   Widget _featuredToday() {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
-                "عرض الكل",
-                style: TextStyle(color: AppColors.primaryOrange, fontSize: 15),
-              ),
-              Text(
-                "المميز اليوم",
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
+    return Obx(() {
+
+
+final selectedIndex = controller.selectedCategory.value;
+final selectedCatId = menuCtrl.categories.isNotEmpty
+    ? menuCtrl.categories[selectedIndex]['id']
+    : null;
+
+final filtered = menuCtrl.menuItems.where((item) {
+  // "الكل" = ID الصفري → ما نفلتر
+  final isAll = selectedCatId == '00000000-0000-0000-0000-000000000000';
+  final matchesCategory = isAll || item['category_id'] == selectedCatId;
+
+  final query = menuCtrl.searchQuery.value.toLowerCase();
+  final matchesSearch = query.isEmpty ||
+      item['name'].toString().toLowerCase().contains(query) ||
+      (item['description'] ?? '').toString().toLowerCase().contains(query);
+
+  return matchesCategory && matchesSearch;
+}).toList();
+
+      // ─── لو ما في وجبات في هذا القسم ───────
+      if (filtered.isEmpty) {
+        return Padding(
+          padding: const EdgeInsets.all(40),
+          child: Center(
+            child: Column(
+              children: [
+                const Icon(
+                  Icons.search_off,
+                  color: AppColors.greyText,
+                  size: 50,
                 ),
-              ),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 15),
-
-        SizedBox(
-          height: 320,
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            scrollDirection: Axis.horizontal,
-            reverse: true,
-            itemCount: 5,
-            separatorBuilder: (_, _) => const SizedBox(width: 15),
-            itemBuilder: (context, index) {
-              return InkWell(onTap: () {
-                Get.to(DetailScreen());
-              },
-                child: Container(
-                  width: 280,
-                  decoration: BoxDecoration(
-                    color: AppColors.bottomNav,
-                    borderRadius: BorderRadius.circular(25),
+                const SizedBox(height: 12),
+                // ─ رسالة مختلفة حسب السبب ─
+                Text(
+                  menuCtrl.searchQuery.value.isNotEmpty
+                      ? 'لا نتائج لـ "${menuCtrl.searchQuery.value}"'
+                      : 'لا توجد وجبات في هذا القسم',
+                  style: const TextStyle(
+                    color: AppColors.greyText,
+                    fontSize: 18,
                   ),
-                
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(25),
-                            ),
-                            child: Image.asset(
-                              "assets/image/download.jpg",
-                              height: 170,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                
-                          Positioned(
-                            top: 10,
-                            right: 10,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 6,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xffF4A62A),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: const Text(
-                                "مميز",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                
-                          Positioned(
-                            bottom: 10,
-                            left: 10,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 5,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.black54,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: const Row(
-                                children: [
-                                  Icon(Icons.star, color: Colors.amber, size: 16),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    "4.9",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                
-                      Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+
+      // ─── عرض الوجبات المفلترة ───────────────
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text(
+                  'عرض الكل',
+                  style: TextStyle(
+                    color: AppColors.primaryOrange,
+                    fontSize: 15,
+                  ),
+                ),
+                Text(
+                  'المميز اليوم',
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 15),
+          SizedBox(
+            height: 320,
+            child: ListView.separated(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              scrollDirection: Axis.horizontal,
+              reverse: true,
+              itemCount: filtered.length, // ← عدد الوجبات المفلترة
+              separatorBuilder: (_, _) => const SizedBox(width: 15),
+              itemBuilder: (context, index) {
+                final item = filtered[index]; // ← كل وجبة من Supabase
+
+                return InkWell(
+                  onTap: () => Get.to(DetailScreen()),
+                  child: Container(
+                    width: 280,
+                    decoration: BoxDecoration(
+                      color: AppColors.bottomNav,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        // ─ الصورة ─
+                        Stack(
                           children: [
-                            const Text(
-                              "مسكوف بغدادي",
-                              style: TextStyle(
-                                color: AppColors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
+                            ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(25),
                               ),
+
+                              child:
+                                  (item['image_url'] != null &&
+                                      item['image_url'].toString().startsWith(
+                                        'http',
+                                      ))
+                                  ? Image.network(
+                                      item['image_url'],
+                                      height: 170,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (_, _, _) => Image.asset(
+                                        'assets/image/download.jpg',
+                                        height: 170,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    )
+                                  : Image.asset(
+                                      'assets/image/download.jpg',
+                                      height: 170,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
-                
-                            const SizedBox(height: 8),
-                
-                            const Text(
-                              "سمك مشوي على الطريقة البغدادية الأصيلة",
-                              textAlign: TextAlign.right,
-                              style: TextStyle(color: AppColors.greyText),
-                            ),
-                
-                            const SizedBox(height: 12),
-                
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.access_time,
-                                  color: AppColors.greyText,
-                                  size: 18,
+                            Positioned(
+                              bottom: 10,
+                              left: 10,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 5,
                                 ),
-                
-                                const SizedBox(width: 5),
-                
-                                const Text(
-                                  "35 د",
-                                  style: TextStyle(color: AppColors.greyText),
+                                decoration: BoxDecoration(
+                                  color: Colors.black54,
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                
-                                const Spacer(),
-                
-                                Text(
-                                  "٢٨,٠٠٠ د.ع",
-                                  style: TextStyle(
-                                    color: AppColors.primaryOrange,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                child: const Row(
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                      size: 16,
+                                    ),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      '4.9',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
 
+                        // ─ المعلومات من Supabase ─
+                        Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                item['name'], // ← الاسم الحقيقي
+                                style: const TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                item['description'] ?? '',
+                                style: const TextStyle(
+                                  color: AppColors.greyText,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 12),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.access_time,
+                                    color: AppColors.greyText,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    '${item['preparation_time']} د', // ← وقت حقيقي
+                                    style: const TextStyle(
+                                      color: AppColors.greyText,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    '${item['price']} د.ع', // ← سعر حقيقي
+                                    style: const TextStyle(
+                                      color: AppColors.primaryOrange,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      );
+    });
+  }
   //──────────────────────────── setting  ────────────────────────────────────────
 
   Widget _settingItem({
