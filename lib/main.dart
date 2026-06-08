@@ -12,27 +12,25 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'controller/home_controller.dart';
 
-void main()async {
-   WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // تهيئة Supabase 
+  // تهيئة Supabase
   await Supabase.initialize(
-    url:    SupabaseConfig.url,
+    url: SupabaseConfig.url,
     // ignore: deprecated_member_use
     anonKey: SupabaseConfig.anonKey,
   );
 
-    await initialServices();
-    Get.put(LocaleController());
+  await initialServices();
+  Get.put(LocaleController());
   Get.put(HomeController());
-  Get.put(CartController()); 
+  Get.put(CartController());
 
   Get.put(OrdersController());
 
-
   runApp(const MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -40,8 +38,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      theme: ThemeData.light(),
+      darkTheme:ThemeData.dark(), 
+      themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-        locale: Get.find<LocaleController>().language,
+      locale: Get.find<LocaleController>().language,
       fallbackLocale: const Locale('ar'),
       home: SplashScreen(),
     );

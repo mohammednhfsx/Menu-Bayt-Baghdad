@@ -109,7 +109,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                 ? Image.network(
                     widget.item['image_url'],
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Image.asset(
+                    errorBuilder: (_, _, _) => Image.asset(
                       'assets/image/download.jpg',
                       fit: BoxFit.cover,
                     ),

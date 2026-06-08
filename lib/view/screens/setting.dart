@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menubaghdad/core/localization/local_change.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
+import 'package:menubaghdad/core/theme/theme_app.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -12,8 +13,9 @@ class Setting extends StatefulWidget {
 
 class _SettingState extends State<Setting> {
   String selectedLang = 'ar';
-  bool isDark = true;
+  bool isDark = false;
     final LocaleController localeCtrl = Get.find<LocaleController>();
+    final themeController = Get.put(ThemeController());
 
   @override
   Widget build(BuildContext context) {
@@ -241,8 +243,12 @@ class _SettingState extends State<Setting> {
         children: [
           Switch(
             value: isDark,
-            onChanged: (val) {
-              setState(() => isDark = val);
+      onChanged: (val) {
+        setState(() {
+          isDark = val;
+        });
+
+        themeController.togglerTheme(val);
               Get.snackbar(
                 'المظهر',
                 val ? 'الوضع الداكن' : 'الوضع الفاتح',
@@ -250,7 +256,7 @@ class _SettingState extends State<Setting> {
                 colorText: AppColors.background,
               );
             },
-            activeColor: AppColors.primaryOrange,
+            activeThumbColor: AppColors.primaryOrange,
           ),
           const Spacer(),
           Column(

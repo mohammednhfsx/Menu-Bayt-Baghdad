@@ -53,7 +53,7 @@ class HomeContent extends StatelessWidget {
                 const SizedBox(height: 15),
                 _featuredToday(),
                 const SizedBox(height: 24),
-                   _featuredToday(),
+                   _Mostrequested(),
               ],
             ),
           ),
@@ -360,7 +360,7 @@ final filtered = menuCtrl.menuItems.where((item) {
                   ),
                 ),
                 Text(
-                  'المميز اليوم',
+                  ' المميز اليوم',
                   style: TextStyle(
                     color: AppColors.white,
                     fontSize: 22,
@@ -519,6 +519,197 @@ final filtered = menuCtrl.menuItems.where((item) {
       );
     });
   }
+
+
+
+Widget _Mostrequested() {
+  return Obx(() {
+    final selectedIndex = controller.selectedCategory.value;
+    final selectedCatId = menuCtrl.categories.isNotEmpty
+        ? menuCtrl.categories[selectedIndex]['id']
+        : null;
+
+    final filtered = menuCtrl.menuItems.where((item) {
+      final isAll = selectedCatId == '00000000-0000-0000-0000-000000000000';
+      final matchesCategory = isAll || item['category_id'] == selectedCatId;
+      final query = menuCtrl.searchQuery.value.toLowerCase();
+      final matchesSearch = query.isEmpty ||
+          item['name'].toString().toLowerCase().contains(query) ||
+          (item['description'] ?? '').toString().toLowerCase().contains(query);
+      return matchesCategory && matchesSearch;
+    }).toList();
+
+    if (filtered.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.all(40),
+        child: Center(
+          child: Column(
+            children: [
+              const Icon(Icons.search_off, color: AppColors.greyText, size: 50),
+              const SizedBox(height: 12),
+              Text(
+                menuCtrl.searchQuery.value.isNotEmpty
+                    ? 'لا نتائج لـ "${menuCtrl.searchQuery.value}"'
+                    : 'لا توجد وجبات في هذا القسم',
+                style: const TextStyle(color: AppColors.greyText, fontSize: 18),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Column(
+      children: [
+        // ─── الهيدر ───────────────────────────────
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Text(
+                'عرض الكل',
+                style: TextStyle(color: AppColors.primaryOrange, fontSize: 15),
+              ),
+              Text(
+                'الأكثر طلباً',
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 15),
+
+        // ─── القائمة العمودية ──────────────────────
+        ListView.separated(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: filtered.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 14),
+          itemBuilder: (context, index) {
+            final item = filtered[index];
+
+            return InkWell(
+              onTap: () => Get.to(DetailScreen(item: item)),
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.bottomNav,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    // ─ زر الإضافة ─
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: const BoxDecoration(
+                        gradient: AppColors.orangeGradient,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.add, color: Colors.white, size: 22),
+                    ),
+                    const SizedBox(width: 12),
+
+                    // ─ المعلومات ─
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            item['name'],
+                            style: const TextStyle(
+                              color: AppColors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            item['description'] ?? '',
+                            style: const TextStyle(
+                              color: AppColors.greyText,
+                              fontSize: 12,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.right,
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${item['price']} د.ع',
+                                style: const TextStyle(
+                                  color: AppColors.primaryOrange,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              // ─ التقييم ─
+                              Row(
+                                children: [
+                                  const Icon(Icons.star,
+                                      color: Colors.amber, size: 14),
+                                  const SizedBox(width: 3),
+                                  const Text(
+                                    '4.9',
+                                    style: TextStyle(
+                                        color: AppColors.greyText, fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+
+                    // ─ الصورة ─
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: (item['image_url'] != null &&
+                              item['image_url'].toString().startsWith('http'))
+                          ? Image.network(
+                              item['image_url'],
+                              width: 90,
+                              height: 90,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => Image.asset(
+                                'assets/image/download.jpg',
+                                width: 90,
+                                height: 90,
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : Image.asset(
+                              'assets/image/download.jpg',
+                              width: 90,
+                              height: 90,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  });
+}
+
   //──────────────────────────── setting  ────────────────────────────────────────
 
   Widget _settingItem({

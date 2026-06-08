@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menubaghdad/controller/cart_controller.dart';
-import 'package:menubaghdad/controller/home_controller.dart';
 import 'package:menubaghdad/controller/order_controller.dart';
 import 'package:menubaghdad/controller/order_success_controller.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
@@ -360,8 +359,9 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
       price: item.price,
     )).toList(),
   );
+  final successController = Get.put(OrderSuccessController());
 
-  Get.find<OrderSuccessController>().setDuration(30 * 60);
+successController.setDuration(30 * 60);
   cart.clearCart();
 
   Get.off(
