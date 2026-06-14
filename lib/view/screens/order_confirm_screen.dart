@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menubaghdad/controller/cart_controller.dart';
-import 'package:menubaghdad/controller/order_controller.dart';
 import 'package:menubaghdad/controller/order_success_controller.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
-import 'package:menubaghdad/model/order_model.dart';
 import 'package:menubaghdad/view/screens/order_success_screen.dart';
 
 class OrderConfirmScreen extends StatefulWidget {
@@ -160,6 +158,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
+                              // ignore: deprecated_member_use
                               color: AppColors.primaryOrange.withOpacity(0.15),
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -302,6 +301,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
+              // ignore: deprecated_member_use
               ? AppColors.primaryOrange.withOpacity(0.15)
               : AppColors.cardColor,
           borderRadius: BorderRadius.circular(16),
@@ -338,32 +338,30 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
   // ─── زر التأكيد ───────────────────────────────────────────
 
   Widget _buildConfirmButton(BuildContext context) {
+    return  Obx(() {
+    final isLoading = cart.isSubmitting.value;
     return GestureDetector(
-  onTap: () {
+ onTap: () async {
+  
   if (_tableController.text.trim().isEmpty) {
     Get.snackbar('تنبيه', 'الرجاء إدخال رقم الطاولة',
         backgroundColor: Colors.red, colorText: Colors.white);
     return;
   }
 
-  final total = cart.total;
   final table = _tableController.text.trim();
+  final total = cart.total;
 
-  // ─ أضف الطلب لـ OrdersController ─
-  Get.find<OrdersController>().addOrder(
+  // ─── إرسال حقيقي لـ Supabase ─────────────
+  final order = await cart.submitOrder(
     tableNumber: table,
-    total: total,
-    items: cart.items.map((item) => OrderItemModel(
-      name: item.name,
-      quantity: item.quantity,
-      price: item.price,
-    )).toList(),
+    paymentMethod: _paymentMethod,
   );
-  final successController = Get.put(OrderSuccessController());
 
-successController.setDuration(30 * 60);
-  cart.clearCart();
+  if (order == null) return;  
 
+  
+Get.put(OrderSuccessController());
   Get.off(
     () => OrderSuccessScreen(
       tableNumber: table,
@@ -372,6 +370,8 @@ successController.setDuration(30 * 60);
     transition: Transition.fadeIn,
   );
 },
+    
+
       
       child: Container(
         width: double.infinity,
@@ -383,6 +383,7 @@ successController.setDuration(30 * 60);
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
+              // ignore: deprecated_member_use
               color: AppColors.primaryOrange.withOpacity(0.4),
               blurRadius: 12,
               offset: const Offset(0, 6),
@@ -408,7 +409,7 @@ successController.setDuration(30 * 60);
         ),
       ),
     );
-  }
+  });}
 
   Widget _buildTableField() {
     return Column(

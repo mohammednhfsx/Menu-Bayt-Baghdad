@@ -27,6 +27,7 @@ class CustomIcon extends StatelessWidget {
         height: 42,
         decoration: BoxDecoration(
             border: Border.all(
+                // ignore: deprecated_member_use
                 color: Colors.white.withOpacity(0.15),
                 width: 1,
               ),

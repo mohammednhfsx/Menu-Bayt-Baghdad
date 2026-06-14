@@ -4,9 +4,11 @@ import 'package:menubaghdad/controller/home_controller.dart';
 import 'package:menubaghdad/controller/menu_controller.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
 import 'package:menubaghdad/view/screens/product_details.dart';
-import 'package:menubaghdad/view/widgets/custom_container.dart';
+import 'package:menubaghdad/view/widgets/animated_container.dart';
+
 import 'package:menubaghdad/view/widgets/custom_icons.dart';
 import 'package:menubaghdad/view/widgets/custom_text_field.dart';
+import 'package:menubaghdad/view/widgets/shimmer.dart';
 
 class HomeContent extends StatelessWidget {
   final searchController = TextEditingController();
@@ -20,19 +22,7 @@ class HomeContent extends StatelessWidget {
       child: Obx(() {
         // ─ شاشة لودنك واحدة لكل شيء ─
         if (menuCtrl.isLoading.value) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(color: AppColors.primaryOrange),
-                const SizedBox(height: 16),
-                const Text(
-                  'جاري تحميل المنيو...',
-                  style: TextStyle(color: AppColors.greyText),
-                ),
-              ],
-            ),
-          );
+          return   const ShimmerHomeLoading();
         }
 
         // ─ المحتوى الكامل بعد التحميل ─
@@ -123,68 +113,25 @@ class HomeContent extends StatelessWidget {
 
   // ignore: non_constant_identifier_names
   Widget _BannerOff(BuildContext context) {
-    return Center(
-      child: CustomContainer(
-        color: AppColors.darkOrange,
-        height: 200,
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.all(Radius.circular(25)),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.asset("assets/image/download.jpg", fit: BoxFit.cover),
-
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    // ignore: deprecated_member_use
-                    color: Colors.white.withOpacity(0.15),
-                    width: 1,
-                  ),
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [
-                      Colors.transparent,
-                      // ignore: deprecated_member_use
-                      Colors.black.withOpacity(0.4),
-                      // ignore: deprecated_member_use
-                      Colors.black.withOpacity(0.9),
-                    ],
-                  ),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: "خصم 20% على \n",
-                          style: TextStyle(color: AppColors.white),
-                        ),
-                        TextSpan(
-                          text: ' جميع المشاوي',
-                          style: TextStyle(color: AppColors.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+    return  Center(
+  child: ConstrainedBox(
+    constraints: const BoxConstraints(
+      maxWidth: 1200,
+    ),
+    child: SizedBox(
+      width: double.infinity,
+      height: 200,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Image.asset(
+          "assets/image/baghdad.png",
+          fit: BoxFit.cover,
         ),
       ),
-    );
+    ),
+  ),
+);
+  
   }
 
   //──────────────────────────── Category  ────────────────────────────────────────
@@ -242,6 +189,7 @@ class HomeContent extends StatelessWidget {
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           border: Border.all(
+                            // ignore: deprecated_member_use
                             color: Colors.white.withOpacity(0.15),
                             width: 1,
                           ),
@@ -261,6 +209,7 @@ class HomeContent extends StatelessWidget {
                               ? [
                                   BoxShadow(
                                     blurRadius: 10,
+                                    // ignore: deprecated_member_use
                                     color: AppColors.primaryOrange.withOpacity(
                                       0.3,
                                     ),
@@ -522,6 +471,7 @@ final filtered = menuCtrl.menuItems.where((item) {
 
 
 
+// ignore: non_constant_identifier_names
 Widget _Mostrequested() {
   return Obx(() {
     final selectedIndex = controller.selectedCategory.value;
@@ -592,12 +542,12 @@ Widget _Mostrequested() {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: filtered.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 14),
+          separatorBuilder: (_, _) => const SizedBox(height: 14),
           itemBuilder: (context, index) {
             final item = filtered[index];
 
             return InkWell(
-              onTap: () => Get.to(DetailScreen(item: item)),
+              // onTap: () => Get.to(DetailScreen(item: item)),
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 decoration: BoxDecoration(
@@ -608,14 +558,18 @@ Widget _Mostrequested() {
                 child: Row(
                   children: [
                     // ─ زر الإضافة ─
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: const BoxDecoration(
-                        gradient: AppColors.orangeGradient,
-                        shape: BoxShape.circle,
+                    ShakingCard(
+                      child: InkWell( onTap: () => Get.to(DetailScreen(item: item)),
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          decoration: const BoxDecoration(
+                            gradient: AppColors.orangeGradient,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.add, color: Colors.white, size: 22),
+                        ),
                       ),
-                      child: const Icon(Icons.add, color: Colors.white, size: 22),
                     ),
                     const SizedBox(width: 12),
 
@@ -685,7 +639,7 @@ Widget _Mostrequested() {
                               width: 90,
                               height: 90,
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => Image.asset(
+                              errorBuilder: (_, _, _) => Image.asset(
                                 'assets/image/download.jpg',
                                 width: 90,
                                 height: 90,
@@ -712,16 +666,16 @@ Widget _Mostrequested() {
 
   //──────────────────────────── setting  ────────────────────────────────────────
 
-  Widget _settingItem({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.orange),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
-      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-      onTap: onTap,
-    );
-  }
-}
+//   Widget _settingItem({
+//     required IconData icon,
+//     required String title,
+//     required VoidCallback onTap,
+//   }) {
+//     return ListTile(
+//       leading: Icon(icon, color: Colors.orange),
+//       title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
+//       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+//       onTap: onTap,
+//     );
+//   }
+ }

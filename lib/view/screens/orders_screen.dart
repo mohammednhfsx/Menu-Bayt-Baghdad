@@ -57,6 +57,7 @@ class OrdersScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: active > 0
+                    // ignore: deprecated_member_use
                     ? AppColors.primaryOrange.withOpacity(0.15)
                     : AppColors.cardColor,
                 borderRadius: BorderRadius.circular(20),
@@ -161,6 +162,7 @@ class OrdersScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.cardColor,
         borderRadius: BorderRadius.circular(20),
+        // ignore: deprecated_member_use
         border: Border.all(color: info.color.withOpacity(0.3), width: 1.5),
       ),
       child: Column(
@@ -195,6 +197,7 @@ class OrdersScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
+              // ignore: deprecated_member_use
               color: info.color.withOpacity(0.15),
               borderRadius: BorderRadius.circular(20),
             ),
@@ -219,7 +222,7 @@ class OrdersScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                order.id,
+                order.id.substring(0,15),
                 style: const TextStyle(
                   color: AppColors.white,
                   fontWeight: FontWeight.bold,
@@ -264,6 +267,7 @@ class OrdersScreen extends StatelessWidget {
                         vertical: 2,
                       ),
                       decoration: BoxDecoration(
+                        // ignore: deprecated_member_use
                         color: AppColors.primaryOrange.withOpacity(0.15),
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -331,32 +335,38 @@ class OrdersScreen extends StatelessWidget {
   }
 
   // ─ العداد شغال ─
-  return Row(
+  return Column(
     children: [
-      SizedBox(
-        width: 28,
-        height: 28,
-        child: CircularProgressIndicator(
-          value: order.progress,
-          strokeWidth: 3,
-          backgroundColor: AppColors.border,
-          valueColor: AlwaysStoppedAnimation<Color>(
-            order.isAlmostDone
-                ? Colors.green
-                : AppColors.primaryOrange,
+    
+      
+      Row(
+        children: [
+          SizedBox(
+            width: 28,
+            height: 28,
+            child: CircularProgressIndicator(
+              value: order.progress,
+              strokeWidth: 3,
+              backgroundColor: AppColors.border,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                order.isAlmostDone
+                    ? Colors.green
+                    : AppColors.primaryOrange,
+              ),
+            ),
           ),
-        ),
-      ),
-      const SizedBox(width: 8),
-      Text(
-        order.timeFormatted,
-        style: TextStyle(
-          color: order.isAlmostDone
-              ? Colors.green
-              : AppColors.white,
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
-        ),
+          const SizedBox(width: 8),
+          Text(
+            order.timeFormatted,
+            style: TextStyle(
+              color: order.isAlmostDone
+                  ? Colors.green
+                  : AppColors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
       ),
     ],
   );

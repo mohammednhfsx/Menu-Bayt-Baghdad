@@ -61,6 +61,7 @@ final ctrl = Get.find<OrderSuccessController>();
         height: 120,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
+          // ignore: deprecated_member_use
           color: Colors.green.withOpacity(0.15),
           border: Border.all(color: Colors.green, width: 3),
         ),
@@ -94,9 +95,11 @@ final ctrl = Get.find<OrderSuccessController>();
           padding: const EdgeInsets.symmetric(
               horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
+            // ignore: deprecated_member_use
             color: AppColors.primaryOrange.withOpacity(0.15),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
+                // ignore: deprecated_member_use
                 color: AppColors.primaryOrange.withOpacity(0.3)),
           ),
           child: Text(
@@ -207,6 +210,7 @@ final ctrl = Get.find<OrderSuccessController>();
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
+                  // ignore: deprecated_member_use
                   color: AppColors.primaryOrange.withOpacity(0.4),
                   blurRadius: 12,
                   offset: const Offset(0, 6),

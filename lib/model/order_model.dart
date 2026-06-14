@@ -60,7 +60,19 @@ class OrderModel {
       case OrderStatus.delivered:
         return (label: 'تم التسليم', color: AppColors.greyText, icon: Icons.done_all);
     }
+    
   }
+  OrderModel copyWith({OrderStatus? status}) {
+  return OrderModel(
+    id: id,
+    tableNumber: tableNumber,
+    items: items,
+    status: status ?? this.status,
+    createdAt: createdAt,
+    total: total,
+    initialSeconds: secondsLeft.value, // نحافظ على العداد الحالي
+  );
+}
 }
 
 class OrderItemModel {
@@ -73,4 +85,6 @@ class OrderItemModel {
     required this.quantity,
     required this.price,
   });
+
+  
 }

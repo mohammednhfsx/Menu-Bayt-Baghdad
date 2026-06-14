@@ -7,7 +7,7 @@ import 'package:menubaghdad/model/cart_model.dart';
 class DetailScreen extends StatefulWidget {
   final Map<String, dynamic> item; // ← أضفنا
   const DetailScreen({super.key, required this.item}); // ← أضفنا
-  
+
   @override
   State<DetailScreen> createState() => _ItemDetailScreenState();
 }
@@ -16,12 +16,11 @@ class _Extra {
   final String name;
   final String price;
   final double extraPrice;
-  bool selected;
+  bool selected = false;
   _Extra({
     required this.name,
     required this.price,
     required this.extraPrice,
-    this.selected = false,
   });
 }
 
@@ -29,8 +28,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
   int _qty = 1;
 
   // ← السعر من الـ item الحقيقي
-  double get _basePrice =>
-      (widget.item['price'] as num).toDouble();
+  double get _basePrice => (widget.item['price'] as num).toDouble();
 
   final List<_Extra> _extras = [
     _Extra(name: 'رز إضافي', price: '+٢,٠٠٠ د.ع', extraPrice: 2000),
@@ -46,10 +44,12 @@ class _ItemDetailScreenState extends State<DetailScreen> {
   }
 
   String _formatPrice(double v) {
-    final s = v.toStringAsFixed(0).replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (m) => '${m[1]},',
-    );
+    final s = v
+        .toStringAsFixed(0)
+        .replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (m) => '${m[1]},',
+        );
     return '$s د.ع';
   }
 
@@ -114,10 +114,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                       fit: BoxFit.cover,
                     ),
                   )
-                : Image.asset(
-                    'assets/image/download.jpg',
-                    fit: BoxFit.cover,
-                  ),
+                : Image.asset('assets/image/download.jpg', fit: BoxFit.cover),
 
             Container(
               decoration: const BoxDecoration(
@@ -135,8 +132,10 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _circleBtn(Icons.arrow_back_ios,
-                      onTap: () => Navigator.maybePop(context)),
+                  _circleBtn(
+                    Icons.arrow_back_ios,
+                    onTap: () => Navigator.maybePop(context),
+                  ),
                 ],
               ),
             ),
@@ -153,7 +152,9 @@ class _ItemDetailScreenState extends State<DetailScreen> {
         width: 40,
         height: 40,
         decoration: const BoxDecoration(
-            color: Colors.black45, shape: BoxShape.circle),
+          color: Colors.black45,
+          shape: BoxShape.circle,
+        ),
         child: Icon(icon, color: AppColors.white, size: 20),
       ),
     );
@@ -167,8 +168,11 @@ class _ItemDetailScreenState extends State<DetailScreen> {
         _badge(Icons.local_fire_department, '720 سعرة', AppColors.darkOrange),
         const SizedBox(width: 8),
         // ← وقت حقيقي
-        _badge(Icons.access_time,
-            '${widget.item['preparation_time']} دقيقة', AppColors.greyText),
+        _badge(
+          Icons.access_time,
+          '${widget.item['preparation_time']} دقيقة',
+          AppColors.greyText,
+        ),
         const SizedBox(width: 8),
         _badge(Icons.star, '4.8', AppColors.primaryOrange),
       ],
@@ -181,14 +185,19 @@ class _ItemDetailScreenState extends State<DetailScreen> {
       decoration: BoxDecoration(
         color: AppColors.cardColor,
         borderRadius: BorderRadius.circular(20),
+        // ignore: deprecated_member_use
         border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
-      child: Row(children: [
-        Icon(icon, color: iconColor, size: 14),
-        const SizedBox(width: 4),
-        Text(label,
-            style: const TextStyle(color: AppColors.white, fontSize: 12)),
-      ]),
+      child: Row(
+        children: [
+          Icon(icon, color: iconColor, size: 14),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: const TextStyle(color: AppColors.white, fontSize: 12),
+          ),
+        ],
+      ),
     );
   }
 
@@ -197,7 +206,6 @@ class _ItemDetailScreenState extends State<DetailScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-      
         Text(
           widget.item['name'] ?? '',
           style: const TextStyle(
@@ -207,8 +215,10 @@ class _ItemDetailScreenState extends State<DetailScreen> {
           ),
         ),
         const SizedBox(height: 6),
-        const Text('السعر',
-            style: TextStyle(color: AppColors.greyText, fontSize: 12)),
+        const Text(
+          'السعر',
+          style: TextStyle(color: AppColors.greyText, fontSize: 12),
+        ),
         const SizedBox(height: 2),
         Text(
           _formatPrice(_basePrice),
@@ -240,6 +250,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
       decoration: BoxDecoration(
         color: AppColors.cardColor,
         borderRadius: BorderRadius.circular(16),
+        // ignore: deprecated_member_use
         border: Border.all(color: Colors.white.withOpacity(0.07)),
       ),
       child: Row(
@@ -257,43 +268,70 @@ class _ItemDetailScreenState extends State<DetailScreen> {
   }
 
   Widget _infoCell(String label, String value) {
-    return Column(children: [
-      Text(label,
-          style: const TextStyle(color: AppColors.greyText, fontSize: 12)),
-      const SizedBox(height: 4),
-      Text(value,
+    return Column(
+      children: [
+        Text(
+          label,
+          style: const TextStyle(color: AppColors.greyText, fontSize: 12),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
           style: const TextStyle(
-              color: AppColors.white,
-              fontSize: 15,
-              fontWeight: FontWeight.w600)),
-    ]);
+            color: AppColors.white,
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
   }
 
   Widget _infoHeatCell() {
-    return Column(children: [
-      const Text('درجة الحرارة',
-          style: TextStyle(color: AppColors.greyText, fontSize: 12)),
-      const SizedBox(height: 4),
-      const Row(children: [
-        Icon(Icons.local_fire_department, color: AppColors.Orange, size: 18),
-        Icon(Icons.local_fire_department, color: AppColors.Orange, size: 18),
-      ]),
-    ]);
+    return Column(
+      children: [
+        const Text(
+          'درجة الحرارة',
+          style: TextStyle(color: AppColors.greyText, fontSize: 12),
+        ),
+        const SizedBox(height: 4),
+        const Row(
+          children: [
+            Icon(
+              Icons.local_fire_department,
+              color: AppColors.Orange,
+              size: 18,
+            ),
+            Icon(
+              Icons.local_fire_department,
+              color: AppColors.Orange,
+              size: 18,
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   Widget _divider() => Container(
-      width: 1, height: 36, color: const Color.fromARGB(31, 248, 229, 229));
+    width: 1,
+    height: 36,
+    color: const Color.fromARGB(31, 248, 229, 229),
+  );
 
   // ── Extras ──────────────────────────────────────────────────
   Widget _buildExtrasSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('إضافات',
-            style: TextStyle(
-                color: AppColors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold)),
+        const Text(
+          'إضافات',
+          style: TextStyle(
+            color: AppColors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         const SizedBox(height: 12),
         ..._extras.map((e) => _extraTile(e)),
       ],
@@ -305,14 +343,14 @@ class _ItemDetailScreenState extends State<DetailScreen> {
       onTap: () => setState(() => extra.selected = !extra.selected),
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
-        padding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: AppColors.border,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: extra.selected
                 ? AppColors.Orange
+                // ignore: deprecated_member_use
                 : Colors.white.withOpacity(0.08),
           ),
         ),
@@ -326,26 +364,31 @@ class _ItemDetailScreenState extends State<DetailScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                    color: extra.selected
-                        ? AppColors.Orange
-                        : AppColors.greyText,
-                    width: 2),
-                color:
-                    extra.selected ? AppColors.Orange : Colors.transparent,
+                  color: extra.selected ? AppColors.Orange : AppColors.greyText,
+                  width: 2,
+                ),
+                color: extra.selected ? AppColors.Orange : Colors.transparent,
               ),
               child: extra.selected
                   ? const Icon(Icons.check, color: AppColors.white, size: 14)
                   : null,
             ),
-            Row(children: [
-              Text(extra.price,
+            Row(
+              children: [
+                Text(
+                  extra.price,
                   style: const TextStyle(
-                      color: AppColors.greyText, fontSize: 14)),
-              const SizedBox(width: 12),
-              Text(extra.name,
-                  style: const TextStyle(
-                      color: AppColors.white, fontSize: 15)),
-            ]),
+                    color: AppColors.greyText,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  extra.name,
+                  style: const TextStyle(color: AppColors.white, fontSize: 15),
+                ),
+              ],
+            ),
           ],
         ),
       ),
@@ -357,24 +400,34 @@ class _ItemDetailScreenState extends State<DetailScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(children: [
-          _qtyBtn(Icons.add, () => setState(() => _qty++)),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text('$_qty',
+        Row(
+          children: [
+            _qtyBtn(Icons.add, () => setState(() => _qty++)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Text(
+                '$_qty',
                 style: const TextStyle(
-                    color: AppColors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold)),
+                  color: AppColors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            _qtyBtn(
+              Icons.remove,
+              _qty > 1 ? () => setState(() => _qty--) : null,
+            ),
+          ],
+        ),
+        const Text(
+          'الكمية',
+          style: TextStyle(
+            color: AppColors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
-          _qtyBtn(Icons.remove,
-              _qty > 1 ? () => setState(() => _qty--) : null),
-        ]),
-        const Text('الكمية',
-            style: TextStyle(
-                color: AppColors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold)),
+        ),
       ],
     );
   }
@@ -387,7 +440,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: AppColors.Orange,
+          gradient: AppColors.orangeGradient,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Icon(icon, color: AppColors.white, size: 20),
@@ -401,8 +454,8 @@ class _ItemDetailScreenState extends State<DetailScreen> {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
       decoration: BoxDecoration(
         color: AppColors.bottomNav,
-        border:
-            Border(top: BorderSide(color: Colors.white.withOpacity(0.06))),
+        // ignore: deprecated_member_use
+        border: Border(top: BorderSide(color: Colors.white.withOpacity(0.06))),
       ),
       child: Directionality(
         textDirection: TextDirection.rtl,
@@ -412,15 +465,17 @@ class _ItemDetailScreenState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('المجموع',
-                    style: TextStyle(
-                        color: AppColors.greyText, fontSize: 12)),
+                const Text(
+                  'المجموع',
+                  style: TextStyle(color: AppColors.greyText, fontSize: 12),
+                ),
                 Text(
                   _formatPrice(_total),
                   style: const TextStyle(
-                      color: AppColors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold),
+                    color: AppColors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -431,15 +486,19 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                   final cart = Get.find<CartController>();
 
                   // ← بيانات حقيقية من widget.item
-                  cart.addItem(CartItem(
-                    id: widget.item['id'],
-                    name: widget.item['name'],
-                    description: widget.item['description'] ?? '',
-                    price: _basePrice,
-                    imageAsset: widget.item['image_url'] ?? 
-                                'assets/image/download.jpg',
-                    quantity: _qty,
-                  ));
+                  cart.addItem(
+                    CartItem(
+                      id: widget.item['id'],
+                      name: widget.item['name'],
+                      description: widget.item['description'] ?? '',
+                      price: _basePrice,
+                      imageAsset:
+                          'assets/image/download.jpg', // fallback 
+                      imageUrl: widget
+                          .item['image_url'], 
+                      quantity: _qty,
+                    ),
+                  );
 
                   Get.back();
                   Get.snackbar(
@@ -453,7 +512,8 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                   height: 54,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                        colors: [Color(0xFFE65100), Color(0xFFFF9800)]),
+                      colors: [Color(0xFFE65100), Color(0xFFFF9800)],
+                    ),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Row(
@@ -461,11 +521,14 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                     children: [
                       Icon(Icons.chevron_left, color: AppColors.white),
                       SizedBox(width: 6),
-                      Text('أضف للسلة',
-                          style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold)),
+                      Text(
+                        'أضف للسلة',
+                        style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                 ),

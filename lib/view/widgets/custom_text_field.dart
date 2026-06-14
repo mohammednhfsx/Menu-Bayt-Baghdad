@@ -20,6 +20,7 @@ class CustomTextField extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.searchFill,
         borderRadius: BorderRadius.circular(30),
+        // ignore: deprecated_member_use
         border: Border.all(color: Colors.white.withOpacity(0.08)),
       ),
       child: Row(
@@ -52,6 +53,7 @@ class CustomTextField extends StatelessWidget {
               },
               decoration: InputDecoration(
                 hintText: 'ابحث عن طبقك المفضل',
+                // ignore: deprecated_member_use
                 hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 20,
@@ -70,9 +72,11 @@ class CustomTextField extends StatelessWidget {
                     menuCtrl.search('');     // يمسح البحث
                   },
                   child: Icon(Icons.close,
+                      // ignore: deprecated_member_use
                       color: Colors.white.withOpacity(0.7)),
                 )
               : Icon(Icons.search,
+                  // ignore: deprecated_member_use
                   color: Colors.white.withOpacity(0.7))),
         ],
       ),

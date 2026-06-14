@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:menubaghdad/core/theme/app_colors.dart';
 
 import 'package:menubaghdad/view/screens/cart_screen.dart';
 import 'package:menubaghdad/view/screens/home_content%20.dart';
@@ -19,7 +20,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 24, 4, 0),
+      backgroundColor: AppColors.background,
       body: Obx(() => pages[controller.selectedIndex.value]),
       bottomNavigationBar: const CustomBottomNavBar(),
     );

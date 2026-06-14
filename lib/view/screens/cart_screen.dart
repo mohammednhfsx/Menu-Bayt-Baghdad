@@ -6,6 +6,7 @@ import 'package:menubaghdad/controller/cart_controller.dart';
 import 'package:menubaghdad/controller/home_controller.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
 import 'package:menubaghdad/view/screens/order_confirm_screen.dart';
+import 'package:menubaghdad/view/widgets/animated_container.dart';
 import '../../core/size_extensions.dart';
 
 class CartPage extends StatelessWidget {
@@ -44,10 +45,12 @@ class CartPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Obx(() => Text(
-            '${cart.itemCount} أصناف',
-            style: const TextStyle(color: AppColors.greyText, fontSize: 14),
-          )),
+          Obx(
+            () => Text(
+              '${cart.itemCount} أصناف',
+              style: const TextStyle(color: AppColors.greyText, fontSize: 14),
+            ),
+          ),
           const Text(
             'سلة الطلبات',
             style: TextStyle(
@@ -84,8 +87,7 @@ class CartPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.shopping_cart_outlined,
-              size: 80, color: AppColors.greyText),
+       
           const SizedBox(height: 16),
           const Text(
             'سلتك فارغة',
@@ -96,27 +98,25 @@ class CartPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'أضف وجبات من المنيو',
-            style: TextStyle(color: AppColors.greyText),
-          ),
+        
           const SizedBox(height: 24),
           GestureDetector(
             onTap: () => Get.find<HomeController>().changePage(1),
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFE65100), Color(0xFFFF9800)],
+            child: ShakingCard(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 14),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFE65100), Color(0xFFFF9800)],
+                  ),
+                  borderRadius: BorderRadius.circular(25),
                 ),
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: const Text(
-                'تصفح المنيو',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                child: const Text(
+                  'تصفح المنيو',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -134,11 +134,13 @@ class CartPage extends StatelessWidget {
       child: Column(
         children: [
           // قائمة الأصناف
-          Obx(() => Column(
-            children: cart.items
-                .map((item) => _buildCartItem(item, context))
-                .toList(),
-          )),
+          Obx(
+            () => Column(
+              children: cart.items
+                  .map((item) => _buildCartItem(item, context))
+                  .toList(),
+            ),
+          ),
 
           const SizedBox(height: 16),
           _buildCouponField(),
@@ -154,7 +156,7 @@ class CartPage extends StatelessWidget {
 
   // ─── Cart Item Card ───────────────────────────────────────
 
-  Widget _buildCartItem(item, BuildContext context) {
+  Widget _buildCartItem(dynamic item, BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       height: AppSize.screenHeight(context) * 0.12,
@@ -178,6 +180,7 @@ class CartPage extends StatelessWidget {
                     width: 30,
                     height: 30,
                     decoration: BoxDecoration(
+                      // ignore: deprecated_member_use
                       color: Colors.red.withOpacity(0.1),
                       shape: BoxShape.circle,
                     ),
@@ -193,6 +196,7 @@ class CartPage extends StatelessWidget {
                   width: 95,
                   height: 37,
                   decoration: BoxDecoration(
+                    // ignore: deprecated_member_use
                     color: AppColors.background.withOpacity(0.5),
                     border: Border.all(color: AppColors.border),
                     borderRadius: BorderRadius.circular(25),
@@ -247,15 +251,25 @@ class CartPage extends StatelessWidget {
             const SizedBox(width: 10),
 
             // ─ صورة الصنف ─
-            Container(
-              width: AppSize.screenWidth(context) * 0.20,
-              height: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                  image: AssetImage(item.imageAsset),
-                  fit: BoxFit.cover,
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: SizedBox(
+                width: AppSize.screenWidth(context) * 0.20,
+                height: double.infinity,
+                child:
+                    (item.imageUrl != null && item.imageUrl!.startsWith('http'))
+                    ? Image.network(
+                        item.imageUrl!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => Image.asset(
+                          'assets/image/download.jpg',
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : Image.asset(
+                        'assets/image/download.jpg',
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
           ],
@@ -301,14 +315,17 @@ class CartPage extends StatelessWidget {
             child: const Text('تطبيق'),
           ),
         ),
-        suffixIcon:
-            const Icon(Icons.sell_outlined, color: AppColors.primaryOrange),
+        suffixIcon: const Icon(
+          Icons.sell_outlined,
+          color: AppColors.primaryOrange,
+        ),
         hintText: 'ادخل كوبون الخصم',
         hintStyle: const TextStyle(
           fontWeight: FontWeight.bold,
           color: AppColors.greyText,
         ),
         filled: true,
+        // ignore: deprecated_member_use
         fillColor: AppColors.searchFill.withOpacity(0.3),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
@@ -325,33 +342,43 @@ class CartPage extends StatelessWidget {
   // ─── Price Summary ────────────────────────────────────────
 
   Widget _buildPriceSummary() {
-    return Obx(() => Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: AppColors.cardColor,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Column(
-        children: [
-          _priceRow('المجموع الفرعي',
-              '${cart.subtotal.toStringAsFixed(0)} د.ع'),
-          const SizedBox(height: 12),
-          _priceRow('الخصم',
+    return Obx(
+      () => Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: AppColors.cardColor,
+          borderRadius: BorderRadius.circular(25),
+        ),
+        child: Column(
+          children: [
+            _priceRow(
+              'المجموع الفرعي',
+              '${cart.subtotal.toStringAsFixed(0)} د.ع',
+            ),
+            const SizedBox(height: 12),
+            _priceRow(
+              'الخصم',
               '- ${cart.discountAmount.value.toStringAsFixed(0)} د.ع',
-              valueColor: Colors.green),
-          const Divider(color: AppColors.border, height: 24),
-          _priceRow(
-            'الإجمالي',
-            '${cart.total.toStringAsFixed(0)} د.ع',
-            isBold: true,
-          ),
-        ],
+              valueColor: Colors.green,
+            ),
+            const Divider(color: AppColors.border, height: 24),
+            _priceRow(
+              'الإجمالي',
+              '${cart.total.toStringAsFixed(0)} د.ع',
+              isBold: true,
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
-  Widget _priceRow(String label, String value,
-      {bool isBold = false, Color? valueColor}) {
+  Widget _priceRow(
+    String label,
+    String value, {
+    bool isBold = false,
+    Color? valueColor,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -363,10 +390,7 @@ class CartPage extends StatelessWidget {
             fontSize: isBold ? 18 : 14,
           ),
         ),
-        Text(
-          label,
-          style: const TextStyle(color: AppColors.greyText),
-        ),
+        Text(label, style: const TextStyle(color: AppColors.greyText)),
       ],
     );
   }
@@ -376,14 +400,9 @@ class CartPage extends StatelessWidget {
   Widget _buildOrderButton(BuildContext context) {
     return GestureDetector(
       onTap: () {
-     if (cart.items.isEmpty) return;
-  
+        if (cart.items.isEmpty) return;
 
-  Get.to(
-    const OrderConfirmScreen(),
-    transition: Transition.downToUp, 
-  );
-     
+        Get.to(const OrderConfirmScreen(), transition: Transition.downToUp);
       },
       child: Container(
         width: double.infinity,

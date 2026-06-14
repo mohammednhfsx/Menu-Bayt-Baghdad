@@ -140,6 +140,7 @@ class _SettingState extends State<Setting> {
               width: 42,
               height: 42,
               decoration: BoxDecoration(
+                // ignore: deprecated_member_use
                 color: AppColors.primaryOrange.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -190,6 +191,7 @@ class _SettingState extends State<Setting> {
           width: 42,
           height: 42,
           decoration: BoxDecoration(
+            // ignore: deprecated_member_use
             color: AppColors.primaryOrange.withOpacity(0.15),
             borderRadius: BorderRadius.circular(12),
           ),
@@ -280,6 +282,7 @@ class _SettingState extends State<Setting> {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
+              // ignore: deprecated_member_use
               color: AppColors.primaryOrange.withOpacity(0.15),
               borderRadius: BorderRadius.circular(12),
             ),
