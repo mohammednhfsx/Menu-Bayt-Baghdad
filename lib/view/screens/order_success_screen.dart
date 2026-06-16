@@ -10,19 +10,21 @@ class OrderSuccessScreen extends StatelessWidget {
   final String tableNumber;
   final String orderTotal;
 
-  const OrderSuccessScreen({
+   OrderSuccessScreen({
     super.key,
     required this.tableNumber,
     required this.orderTotal,
   });
+  final OrderSuccessController ctrl =
+      Get.put(OrderSuccessController());
 
   @override
   Widget build(BuildContext context) {
-    // Get.put هنا — يُنشأ مع الشاشة ويُحذف معها
-final ctrl = Get.find<OrderSuccessController>();
+    
+
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -32,9 +34,9 @@ final ctrl = Get.find<OrderSuccessController>();
               const Spacer(),
               _buildSuccessIcon(),
               const SizedBox(height: 32),
-              _buildOrderInfo(),
+              _buildOrderInfo(context),
               const Spacer(),
-              _buildTimer(ctrl),
+              _buildTimer(ctrl, context),
               const SizedBox(height: 20),
               _buildButtons(),
               const SizedBox(height: 16),
@@ -73,13 +75,13 @@ final ctrl = Get.find<OrderSuccessController>();
 
   // ─── معلومات الطلب ────────────────────────
 
-  Widget _buildOrderInfo() {
+  Widget _buildOrderInfo(BuildContext context) {
     return Column(
       children: [
-        const Text(
+        Text(
           'تم إرسال طلبك! 🎉',
           style: TextStyle(
-            color: AppColors.white,
+            color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 26,
             fontWeight: FontWeight.bold,
           ),
@@ -117,20 +119,27 @@ final ctrl = Get.find<OrderSuccessController>();
 
   // ─── العداد التنازلي ──────────────────────
 
-  Widget _buildTimer(OrderSuccessController ctrl) {
+  Widget _buildTimer(OrderSuccessController ctrl, BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.cardColor,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.border),
+        border: Border.all(color: Theme.of(context).dividerColor),
+        boxShadow: Theme.of(context).brightness == Brightness.light ? [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          )
+        ] : [],
       ),
       child: Column(
         children: [
           const Text(
             'الوقت المتوقع للتحضير',
-            style: TextStyle(color: AppColors.greyText, fontSize: 13),
+            style: TextStyle(color: AppColors.primaryOrange, fontSize: 13),
           ),
           const SizedBox(height: 16),
 
@@ -144,7 +153,7 @@ final ctrl = Get.find<OrderSuccessController>();
                 child: CircularProgressIndicator(
                   value: ctrl.progress,
                   strokeWidth: 7,
-                  backgroundColor: AppColors.border,
+                  backgroundColor: Theme.of(context).dividerColor,
                   valueColor: AlwaysStoppedAnimation<Color>(
                     ctrl.isAlmostDone
                         ? Colors.green
@@ -156,11 +165,11 @@ final ctrl = Get.find<OrderSuccessController>();
                 children: [
                   Text(
                     ctrl.timeFormatted,
-                    style: const TextStyle(
-                      color: AppColors.white,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyLarge?.color,
                       fontSize: 26,
                       fontWeight: FontWeight.bold,
-                      fontFeatures: [FontFeature.tabularFigures()],
+                      fontFeatures: const [FontFeature.tabularFigures()],
                     ),
                   ),
                   const Text(

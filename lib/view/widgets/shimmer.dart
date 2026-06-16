@@ -80,6 +80,7 @@ class _Shimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final isDark = Theme.of(context).brightness == Brightness.dark;
     return ClipRRect(
       borderRadius: BorderRadius.circular(radius),
       child: SizedBox(
@@ -92,14 +93,22 @@ class _Shimmer extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment(anim.value - 1, 0),
                 end: Alignment(anim.value + 1, 0),
-                colors: const [
-                  Color(0xFF2A2A2A),
-                  Color(0xFF3A3A3A),
-                  Color(0xFF454545),
-                  Color(0xFF3A3A3A),
-                  Color(0xFF2A2A2A),
-                ],
-                stops: const [0.0, 0.25, 0.5, 0.75, 1.0],
+               colors: isDark
+                  ? const [ // Dark
+                      Color(0xFF2A2A2A),
+                      Color(0xFF3A3A3A),
+                      Color(0xFF454545),
+                      Color(0xFF3A3A3A),
+                      Color(0xFF2A2A2A),
+                    ]
+                  : const [ // Light
+                      Color(0xFFE8E0D0),
+                      Color(0xFFF0EAE0),
+                      Color(0xFFFAF6F0),
+                      Color(0xFFF0EAE0),
+                      Color(0xFFE8E0D0),
+                    ],
+              stops: const [0.0, 0.25, 0.5, 0.75, 1.0],
               ),
             ),
           ),
@@ -261,7 +270,7 @@ class _ShimmerFeaturedCard extends StatelessWidget {
     return Container(
       width: 280,
       decoration: BoxDecoration(
-        color: AppColors.bottomNav,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(25),
       ),
       child: Column(
@@ -339,7 +348,7 @@ class _ShimmerMostRequestedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.bottomNav,
+        color: Theme.of(context).canvasColor,
         borderRadius: BorderRadius.circular(20),
       ),
       padding: const EdgeInsets.all(12),

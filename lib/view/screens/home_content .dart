@@ -5,7 +5,6 @@ import 'package:menubaghdad/controller/menu_controller.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
 import 'package:menubaghdad/view/screens/product_details.dart';
 import 'package:menubaghdad/view/widgets/animated_container.dart';
-
 import 'package:menubaghdad/view/widgets/custom_icons.dart';
 import 'package:menubaghdad/view/widgets/custom_text_field.dart';
 import 'package:menubaghdad/view/widgets/shimmer.dart';
@@ -20,12 +19,12 @@ class HomeContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Obx(() {
-        // ─ شاشة لودنك واحدة لكل شيء ─
+    
         if (menuCtrl.isLoading.value) {
           return   const ShimmerHomeLoading();
         }
 
-        // ─ المحتوى الكامل بعد التحميل ─
+
         return RefreshIndicator(
           color: AppColors.white,
           backgroundColor: AppColors.border,
@@ -39,11 +38,11 @@ class HomeContent extends StatelessWidget {
                 const SizedBox(height: 25),
                 _BannerOff(context),
                 const SizedBox(height: 15),
-                _allCategory(),
+                _allCategory(context),
                 const SizedBox(height: 15),
-                _featuredToday(),
+                _featuredToday(context),
                 const SizedBox(height: 24),
-                   _Mostrequested(),
+                   _Mostrequested(context),
               ],
             ),
           ),
@@ -63,7 +62,9 @@ class HomeContent extends StatelessWidget {
           //  icon
           Row(
             children: [
-              CustomIcon(icon: Icons.notifications_outlined),
+              CustomIcon(icon: Icons.notifications_outlined ,
+              backgroundColor:Theme.of(context).cardColor ,
+              iconColor: Theme.of(context).primaryColor,),
               const SizedBox(width: 10),
             ],
           ),
@@ -74,9 +75,9 @@ class HomeContent extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Text(
+                   Text(
                     'طاولة رقم ١٢ • فرع الكرادة',
-                    style: TextStyle(color: AppColors.greyText, fontSize: 14),
+                    style: TextStyle(color:Theme.of(context).textTheme.bodyLarge?.color, fontSize: 14),
                   ),
                   const SizedBox(width: 4),
                   const Icon(
@@ -87,13 +88,13 @@ class HomeContent extends StatelessWidget {
                 ],
               ),
               RichText(
-                text: const TextSpan(
+                text:  TextSpan(
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   children: [
                     TextSpan(
                       text: 'أهلاً بك في ',
 
-                      style: TextStyle(color: AppColors.white),
+                      style: TextStyle(color:Theme.of(context).textTheme.bodyLarge?.color,),
                     ),
                     TextSpan(
                       text: 'منيو بغداد',
@@ -113,30 +114,35 @@ class HomeContent extends StatelessWidget {
 
   // ignore: non_constant_identifier_names
   Widget _BannerOff(BuildContext context) {
-    return  Center(
-  child: ConstrainedBox(
-    constraints: const BoxConstraints(
-      maxWidth: 1200,
-    ),
-    child: SizedBox(
-      width: double.infinity,
-      height: 200,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
-        child: Image.asset(
-          "assets/image/baghdad.png",
-          fit: BoxFit.cover,
+    return  Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(decoration: BoxDecoration(         borderRadius: BorderRadius.circular(15),
+        boxShadow:[BoxShadow(color: AppColors.greyText,blurRadius: 5,offset: Offset(0, 2))]),
+        child: Center(
+          child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxWidth: 1200,
+        ),
+        child: AspectRatio(aspectRatio: 1890/ 832,
+           
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.asset(
+              "assets/image/banner.jpeg",
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+          ),
         ),
       ),
-    ),
-  ),
-);
+    );
   
   }
 
   //──────────────────────────── Category  ────────────────────────────────────────
 
-  Widget _allCategory() {
+  Widget _allCategory(BuildContext context) {
     return Column(
       children: [
         Padding(
@@ -146,13 +152,13 @@ class HomeContent extends StatelessWidget {
             children: [
               Text(
                 'عرض الكل',
-                style: TextStyle(fontSize: 15, color: AppColors.primaryOrange),
+                style: TextStyle(fontSize: 15, color: AppColors.primaryOrange,fontWeight: FontWeight.bold),
               ),
               Text(
                 'الأقسام',
                 style: TextStyle(
                   fontSize: 20,
-                  color: AppColors.white,
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -185,7 +191,7 @@ class HomeContent extends StatelessWidget {
                       onTap: () => controller.changeCategory(index ),
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-                        width: isSelected ? 90 : 70,
+                        width: isSelected ? 80 : 60,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -203,7 +209,12 @@ class HomeContent extends StatelessWidget {
                                   ],
                                 )
                               : null,
-                          color: isSelected ? null : AppColors.bottomNav,
+                             
+
+
+
+
+                          color: isSelected ? null :Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(15),
                           boxShadow: isSelected
                               ? [
@@ -220,7 +231,7 @@ class HomeContent extends StatelessWidget {
                         child: AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 300),
                           style: TextStyle(
-                            color: AppColors.white,
+                            color:  Theme.of(context).textTheme.bodyLarge?.color,
                             fontSize: isSelected ? 18 : 16,
                             fontWeight: isSelected
                                 ? FontWeight.bold
@@ -241,7 +252,7 @@ class HomeContent extends StatelessWidget {
   }
   //──────────────────────────── featuredToday  ────────────────────────────────────────
 
-  Widget _featuredToday() {
+  Widget _featuredToday(BuildContext context) {
     return Obx(() {
 
 
@@ -300,8 +311,8 @@ final filtered = menuCtrl.menuItems.where((item) {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
+              children: [
+                const Text(
                   'عرض الكل',
                   style: TextStyle(
                     color: AppColors.primaryOrange,
@@ -311,7 +322,7 @@ final filtered = menuCtrl.menuItems.where((item) {
                 Text(
                   ' المميز اليوم',
                   style: TextStyle(
-                    color: AppColors.white,
+                    color: context.appText,
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
@@ -336,7 +347,7 @@ final filtered = menuCtrl.menuItems.where((item) {
                   child: Container(
                     width: 280,
                     decoration: BoxDecoration(
-                      color: AppColors.bottomNav,
+                      color: context.appCard,
                       borderRadius: BorderRadius.circular(25),
                     ),
                     child: Column(
@@ -413,8 +424,8 @@ final filtered = menuCtrl.menuItems.where((item) {
                             children: [
                               Text(
                                 item['name'], // ← الاسم الحقيقي
-                                style: const TextStyle(
-                                  color: AppColors.white,
+                                style: TextStyle(
+                                  color: context.appText,
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -422,8 +433,8 @@ final filtered = menuCtrl.menuItems.where((item) {
                               const SizedBox(height: 8),
                               Text(
                                 item['description'] ?? '',
-                                style: const TextStyle(
-                                  color: AppColors.greyText,
+                                style: TextStyle(
+                                  color: context.appSubText,
                                 ),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
@@ -431,16 +442,16 @@ final filtered = menuCtrl.menuItems.where((item) {
                               const SizedBox(height: 12),
                               Row(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.access_time,
-                                    color: AppColors.greyText,
+                                    color: context.appSubText,
                                     size: 18,
                                   ),
                                   const SizedBox(width: 5),
                                   Text(
                                     '${item['preparation_time']} د', // ← وقت حقيقي
-                                    style: const TextStyle(
-                                      color: AppColors.greyText,
+                                    style: TextStyle(
+                                      color: context.appSubText,
                                     ),
                                   ),
                                   const Spacer(),
@@ -472,7 +483,7 @@ final filtered = menuCtrl.menuItems.where((item) {
 
 
 // ignore: non_constant_identifier_names
-Widget _Mostrequested() {
+Widget _Mostrequested(BuildContext context) {
   return Obx(() {
     final selectedIndex = controller.selectedCategory.value;
     final selectedCatId = menuCtrl.categories.isNotEmpty
@@ -517,15 +528,15 @@ Widget _Mostrequested() {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text(
+            children: [
+              const Text(
                 'عرض الكل',
                 style: TextStyle(color: AppColors.primaryOrange, fontSize: 15),
               ),
               Text(
                 'الأكثر طلباً',
                 style: TextStyle(
-                  color: AppColors.white,
+                  color: context.appText,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
@@ -551,7 +562,7 @@ Widget _Mostrequested() {
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppColors.bottomNav,
+                  color: context.appCard,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 padding: const EdgeInsets.all(12),
@@ -580,8 +591,8 @@ Widget _Mostrequested() {
                         children: [
                           Text(
                             item['name'],
-                            style: const TextStyle(
-                              color: AppColors.white,
+                            style: TextStyle(
+                              color: context.appText,
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
                             ),
@@ -589,8 +600,8 @@ Widget _Mostrequested() {
                           const SizedBox(height: 4),
                           Text(
                             item['description'] ?? '',
-                            style: const TextStyle(
-                              color: AppColors.greyText,
+                            style: TextStyle(
+                              color: context.appSubText,
                               fontSize: 12,
                             ),
                             maxLines: 2,
@@ -615,10 +626,10 @@ Widget _Mostrequested() {
                                   const Icon(Icons.star,
                                       color: Colors.amber, size: 14),
                                   const SizedBox(width: 3),
-                                  const Text(
+                                  Text(
                                     '4.9',
                                     style: TextStyle(
-                                        color: AppColors.greyText, fontSize: 12),
+                                        color: context.appSubText, fontSize: 12),
                                   ),
                                 ],
                               ),

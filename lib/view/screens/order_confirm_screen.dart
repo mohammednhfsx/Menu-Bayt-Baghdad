@@ -28,23 +28,23 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appBackground,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeader(),
+            _buildHeader(context),
             Expanded(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   children: [
-                    _buildOrderSummary(),
+                    _buildOrderSummary(context),
                     const SizedBox(height: 16),
-                    _buildTableField(),
+                    _buildTableField(context),
                     const SizedBox(height: 16),
-                    _buildNameField(),
+                    _buildNameField(context),
                     const SizedBox(height: 16),
-                    _buildPaymentMethod(),
+                    _buildPaymentMethod(context),
                     const SizedBox(height: 24),
                     _buildConfirmButton(context),
                   ],
@@ -59,7 +59,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
 
   // ─── Header ───────────────────────────────────────────────
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
@@ -72,20 +72,20 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: AppColors.cardColor,
+                color: context.appCard,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.arrow_back_ios_rounded,
-                color: Colors.white,
+                color: context.appText,
                 size: 20,
               ),
             ),
           ),
-          const Text(
+          Text(
             'تأكيد الطلب',
             style: TextStyle(
-              color: AppColors.white,
+              color: context.appText,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -99,30 +99,30 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
 
   // ─── ملخص الطلب ───────────────────────────────────────────
 
-  Widget _buildOrderSummary() {
+  Widget _buildOrderSummary(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.cardColor,
+        color: context.appCard,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           // العنوان
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
                 'ملخص الطلب',
                 style: TextStyle(
-                  color: AppColors.white,
+                  color: context.appText,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(width: 8),
-              Icon(
+              const SizedBox(width: 8),
+              const Icon(
                 Icons.receipt_long,
                 color: AppColors.primaryOrange,
                 size: 20,
@@ -130,7 +130,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
             ],
           ),
 
-          const Divider(color: AppColors.border, height: 20),
+          Divider(color: context.appBorder, height: 20),
 
           // قائمة الأصناف
           Obx(
@@ -143,13 +143,13 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                     children: [
                       Text(
                         '${item.totalPrice.toStringAsFixed(0)} د.ع',
-                        style: const TextStyle(color: AppColors.greyText),
+                        style: TextStyle(color: context.appSubText),
                       ),
                       Row(
                         children: [
                           Text(
                             item.name,
-                            style: const TextStyle(color: AppColors.white),
+                            style: TextStyle(color: context.appText),
                           ),
                           const SizedBox(width: 8),
                           Container(
@@ -180,7 +180,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
             ),
           ),
 
-          const Divider(color: AppColors.border, height: 20),
+          Divider(color: context.appBorder, height: 20),
 
           // الإجمالي
           Obx(
@@ -195,10 +195,10 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Text(
+                Text(
                   'الإجمالي',
                   style: TextStyle(
-                    color: AppColors.white,
+                    color: context.appText,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -212,31 +212,31 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
 
   // ─── اسم الزبون ───────────────────────────────────────────
 
-  Widget _buildNameField() {
+  Widget _buildNameField(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        const Text(
+        Text(
           'اسمك (اختياري)',
-          style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: context.appText, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         TextField(
           controller: _nameController,
           textAlign: TextAlign.right,
-          style: const TextStyle(color: AppColors.white),
+          style: TextStyle(color: context.appText),
           decoration: InputDecoration(
             hintText: 'مثال: أحمد',
-            hintStyle: const TextStyle(color: AppColors.greyText),
-            prefixIcon: const Icon(
+            hintStyle: TextStyle(color: context.appSubText),
+            prefixIcon: Icon(
               Icons.person_outline,
-              color: AppColors.greyText,
+              color: context.appSubText,
             ),
             filled: true,
-            fillColor: AppColors.cardColor,
+            fillColor: context.appCard,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
-              borderSide: const BorderSide(color: AppColors.border),
+              borderSide: BorderSide(color: context.appBorder),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
@@ -250,13 +250,13 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
 
   // ─── طريقة الدفع ──────────────────────────────────────────
 
-  Widget _buildPaymentMethod() {
+  Widget _buildPaymentMethod(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        const Text(
+        Text(
           'طريقة الدفع',
-          style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: context.appText, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 12),
         Row(
@@ -264,6 +264,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
             // ─ أونلاين ─
             Expanded(
               child: _paymentCard(
+                context,
                 method: 'online',
                 icon: Icons.credit_card,
                 label: 'أونلاين',
@@ -274,6 +275,7 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
             // ─ كاش ─
             Expanded(
               child: _paymentCard(
+                context,
                 method: 'cash',
                 icon: Icons.payments_outlined,
                 label: 'كاش',
@@ -286,7 +288,8 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
     );
   }
 
-  Widget _paymentCard({
+  Widget _paymentCard(
+    BuildContext context, {
     required String method,
     required IconData icon,
     required String label,
@@ -303,10 +306,10 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
           color: isSelected
               // ignore: deprecated_member_use
               ? AppColors.primaryOrange.withOpacity(0.15)
-              : AppColors.cardColor,
+              : context.appCard,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? AppColors.primaryOrange : AppColors.border,
+            color: isSelected ? AppColors.primaryOrange : context.appBorder,
             width: isSelected ? 2 : 1,
           ),
         ),
@@ -314,20 +317,20 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
           children: [
             Icon(
               icon,
-              color: isSelected ? AppColors.primaryOrange : AppColors.greyText,
+              color: isSelected ? AppColors.primaryOrange : context.appSubText,
               size: 32,
             ),
             const SizedBox(height: 8),
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? AppColors.primaryOrange : AppColors.white,
+                color: isSelected ? AppColors.primaryOrange : context.appText,
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
               subtitle,
-              style: const TextStyle(color: AppColors.greyText, fontSize: 12),
+              style: TextStyle(color: context.appSubText, fontSize: 12),
             ),
           ],
         ),
@@ -338,105 +341,96 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
   // ─── زر التأكيد ───────────────────────────────────────────
 
   Widget _buildConfirmButton(BuildContext context) {
-    return  Obx(() {
-    final isLoading = cart.isSubmitting.value;
-    return GestureDetector(
- onTap: () async {
-  
-  if (_tableController.text.trim().isEmpty) {
-    Get.snackbar('تنبيه', 'الرجاء إدخال رقم الطاولة',
-        backgroundColor: Colors.red, colorText: Colors.white);
-    return;
+    return Obx(() {
+      final isLoading = cart.isSubmitting.value;
+
+      return GestureDetector(
+        onTap: isLoading
+            ? null
+            : () async {
+                if (_tableController.text.trim().isEmpty) {
+                  Get.snackbar(
+                    'تنبيه',
+                    'الرجاء إدخال رقم الطاولة',
+                    backgroundColor: Colors.red,
+                    colorText: Colors.white,
+                  );
+                  return;
+                }
+
+                final table = _tableController.text.trim();
+                final total = cart.total;
+
+                final order = await cart.submitOrder(
+                  tableNumber: table,
+                  paymentMethod: _paymentMethod,
+                );
+
+                if (order == null) return;
+
+                // if (!Get.isRegistered<OrderSuccessController>()) {
+                //   Get.put(OrderSuccessController());
+                // }
+
+                Get.off(
+                  () => OrderSuccessScreen(
+                    tableNumber: table,
+                    orderTotal: total.toStringAsFixed(0),
+                  ),
+                  transition: Transition.fadeIn,
+                );
+              },
+        child: Container(
+          height: 55,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: Colors.orange,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: isLoading
+              ? const SizedBox(
+                  width: 25,
+                  height: 25,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    color: Colors.white,
+                  ),
+                )
+              : const Text(
+                  'تأكيد الطلب',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+        ),
+      );
+    });
   }
 
-  final table = _tableController.text.trim();
-  final total = cart.total;
-
-  // ─── إرسال حقيقي لـ Supabase ─────────────
-  final order = await cart.submitOrder(
-    tableNumber: table,
-    paymentMethod: _paymentMethod,
-  );
-
-  if (order == null) return;  
-
-  
-Get.put(OrderSuccessController());
-  Get.off(
-    () => OrderSuccessScreen(
-      tableNumber: table,
-      orderTotal: total.toStringAsFixed(0),
-    ),
-    transition: Transition.fadeIn,
-  );
-},
-    
-
-      
-      child: Container(
-        width: double.infinity,
-        height: 56,
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFFE65100), Color(0xFFFF9800)],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              // ignore: deprecated_member_use
-              color: AppColors.primaryOrange.withOpacity(0.4),
-              blurRadius: 12,
-              offset: const Offset(0, 6),
-            ),
-          ],
-        ),
-        child: const Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.check_circle_outline, color: Colors.white),
-              SizedBox(width: 8),
-              Text(
-                'تأكيد الطلب',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  });}
-
-  Widget _buildTableField() {
+  Widget _buildTableField(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        const Text(
+        Text(
           'رقم الطاولة',
-          style: TextStyle(color: AppColors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: context.appText, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         TextField(
           controller: _tableController,
           textAlign: TextAlign.right,
           keyboardType: TextInputType.number,
-          style: const TextStyle(color: AppColors.white),
+          style: TextStyle(color: context.appText),
           decoration: InputDecoration(
             hintText: 'مثال: ١٢',
-            hintStyle: const TextStyle(color: AppColors.greyText),
-            prefixIcon: const Icon(
+            hintStyle: TextStyle(color: context.appSubText),
+            prefixIcon: Icon(
               Icons.table_restaurant_outlined,
-              color: AppColors.greyText,
+              color: context.appSubText,
             ),
             filled: true,
-            fillColor: AppColors.cardColor,
+            fillColor: context.appCard,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
-              borderSide: const BorderSide(color: AppColors.border),
+              borderSide: BorderSide(color: context.appBorder),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),

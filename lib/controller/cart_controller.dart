@@ -7,7 +7,8 @@ class CartController extends GetxController {
   final RxList<CartItem> items = <CartItem>[].obs;
   final RxString couponCode = ''.obs;
   final RxDouble discountAmount = 0.0.obs;
-  final RxBool isSubmitting = false.obs; // ← أضف هذا
+  final RxBool isSubmitting = false.obs; 
+  
 
   // ───────────────────── حسابات ───────────────────────────────────────────
 

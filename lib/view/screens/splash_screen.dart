@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:menubaghdad/view/screens/homepage.dart';
+import 'package:menubaghdad/view/widgets/animated_container.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -148,21 +149,13 @@ class _SplashScreenState extends State<SplashScreen>
                     scale: _logoScale,
                     child: FadeTransition(
                       opacity: _logoFade,
-                      child: Container(
-                        width: 90,
-                        height: 90,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF1C1400),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: const Color(0xFFD4A017),
-                            width: 2,
-                          ),
-                        ),
-                        child: const Icon(
-                          Icons.restaurant,
-                          color: Color(0xFFD4A017),
-                          size: 44,
+                      child: ShakingCard(
+                        child: SizedBox(
+                          width: 80,
+                          height: 80,
+                                             
+                          child:  ClipRRect(borderRadius: BorderRadius.all(Radius.circular(15)),
+                            child: Image.asset("assets/image/logo.jpeg"))
                         ),
                       ),
                     ),

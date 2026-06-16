@@ -56,7 +56,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Stack(
         children: [
           CustomScrollView(
@@ -117,12 +117,12 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                 : Image.asset('assets/image/download.jpg', fit: BoxFit.cover),
 
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, AppColors.background],
-                  stops: [0.55, 1.0],
+                  colors: [Colors.transparent, Theme.of(context).scaffoldBackgroundColor],
+                  stops: const [0.55, 1.0],
                 ),
               ),
             ),
@@ -183,10 +183,9 @@ class _ItemDetailScreenState extends State<DetailScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.cardColor,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
-        // ignore: deprecated_member_use
-        border: Border.all(color: Colors.white.withOpacity(0.08)),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Row(
         children: [
@@ -194,7 +193,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
           const SizedBox(width: 4),
           Text(
             label,
-            style: const TextStyle(color: AppColors.white, fontSize: 12),
+            style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 12),
           ),
         ],
       ),
@@ -208,16 +207,16 @@ class _ItemDetailScreenState extends State<DetailScreen> {
       children: [
         Text(
           widget.item['name'] ?? '',
-          style: const TextStyle(
-            color: AppColors.white,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 28,
             fontWeight: FontWeight.bold,
           ),
         ),
         const SizedBox(height: 6),
-        const Text(
+        Text(
           'السعر',
-          style: TextStyle(color: AppColors.greyText, fontSize: 12),
+          style: TextStyle(color: Theme.of(context).hintColor, fontSize: 12),
         ),
         const SizedBox(height: 2),
         Text(
@@ -233,8 +232,8 @@ class _ItemDetailScreenState extends State<DetailScreen> {
         Text(
           widget.item['description'] ?? '',
           textAlign: TextAlign.right,
-          style: const TextStyle(
-            color: AppColors.greyText,
+          style: TextStyle(
+            color: Theme.of(context).hintColor,
             fontSize: 14,
             height: 1.5,
           ),
@@ -248,10 +247,9 @@ class _ItemDetailScreenState extends State<DetailScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
-        color: AppColors.cardColor,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
-        // ignore: deprecated_member_use
-        border: Border.all(color: Colors.white.withOpacity(0.07)),
+        border: Border.all(color: Theme.of(context).dividerColor),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -277,8 +275,8 @@ class _ItemDetailScreenState extends State<DetailScreen> {
         const SizedBox(height: 4),
         Text(
           value,
-          style: const TextStyle(
-            color: AppColors.white,
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyLarge?.color,
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
@@ -327,7 +325,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
         const Text(
           'إضافات',
           style: TextStyle(
-            color: AppColors.white,
+            color: AppColors.primaryOrange,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -345,13 +343,12 @@ class _ItemDetailScreenState extends State<DetailScreen> {
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: AppColors.border,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: extra.selected
                 ? AppColors.Orange
-                // ignore: deprecated_member_use
-                : Colors.white.withOpacity(0.08),
+                : Theme.of(context).dividerColor,
           ),
         ),
         child: Row(
@@ -385,7 +382,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
                 const SizedBox(width: 12),
                 Text(
                   extra.name,
-                  style: const TextStyle(color: AppColors.white, fontSize: 15),
+                  style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 15),
                 ),
               ],
             ),
@@ -407,8 +404,8 @@ class _ItemDetailScreenState extends State<DetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(
                 '$_qty',
-                style: const TextStyle(
-                  color: AppColors.white,
+                style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge?.color,
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
@@ -423,7 +420,7 @@ class _ItemDetailScreenState extends State<DetailScreen> {
         const Text(
           'الكمية',
           style: TextStyle(
-            color: AppColors.white,
+            color: AppColors.primaryOrange,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -453,9 +450,15 @@ class _ItemDetailScreenState extends State<DetailScreen> {
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 28),
       decoration: BoxDecoration(
-        color: AppColors.bottomNav,
-        // ignore: deprecated_member_use
-        border: Border(top: BorderSide(color: Colors.white.withOpacity(0.06))),
+        color: Theme.of(context).cardColor,
+        border: Border(top: BorderSide(color: Theme.of(context).dividerColor)),
+        boxShadow: context.isDark ? [] : [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 12,
+            offset: const Offset(0, -3),
+          )
+        ],
       ),
       child: Directionality(
         textDirection: TextDirection.rtl,
@@ -465,14 +468,14 @@ class _ItemDetailScreenState extends State<DetailScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   'المجموع',
-                  style: TextStyle(color: AppColors.greyText, fontSize: 12),
+                  style: TextStyle(color: Theme.of(context).hintColor, fontSize: 12),
                 ),
                 Text(
                   _formatPrice(_total),
-                  style: const TextStyle(
-                    color: AppColors.white,
+                  style: TextStyle(
+                    color: Theme.of(context).textTheme.bodyLarge?.color,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),

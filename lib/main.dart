@@ -2,47 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:menubaghdad/controller/cart_controller.dart';
 import 'package:menubaghdad/controller/order_controller.dart';
-
 import 'package:menubaghdad/core/localization/local_change.dart';
 import 'package:menubaghdad/core/services/services.dart';
 import 'package:menubaghdad/core/supabase_config.dart';
-
+import 'package:menubaghdad/core/theme/app_colors.dart';
+import 'package:menubaghdad/core/theme/theme_app.dart';
 import 'package:menubaghdad/view/screens/splash_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-
 import 'controller/home_controller.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   // تهيئة Supabase
   await Supabase.initialize(
     url: SupabaseConfig.url,
     // ignore: deprecated_member_use
     anonKey: SupabaseConfig.anonKey,
   );
-
   await initialServices();
   Get.put(LocaleController());
   Get.put(HomeController());
   Get.put(CartController());
-
   Get.put(OrdersController());
-
-  runApp(const MyApp());
+  final themeController = Get.put(ThemeController());
+  // انتظر تحميل الثيم المحفوظ
+  await Future.delayed(const Duration(milliseconds: 100));
+  runApp(MyApp(themeController: themeController));
 }
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+  final ThemeController themeController;
+  const MyApp({super.key, required this.themeController});
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-    
-      debugShowCheckedModeBanner: false,
-      locale: Get.find<LocaleController>().language,
-      fallbackLocale: const Locale('ar'),
-      home: SplashScreen(),
-    );
+    return Obx(() => GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeController.isDark.value
+              ? ThemeMode.dark
+              : ThemeMode.light,
+          locale: Get.find<LocaleController>().language,
+          fallbackLocale: const Locale('ar'),
+          home: SplashScreen(),
+        ));
   }
 }

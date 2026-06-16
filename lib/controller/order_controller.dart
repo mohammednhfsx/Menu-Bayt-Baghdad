@@ -3,8 +3,6 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:menubaghdad/core/supabase_client.dart';
 import 'package:menubaghdad/model/order_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

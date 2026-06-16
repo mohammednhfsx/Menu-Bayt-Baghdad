@@ -19,15 +19,15 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: context.appBackground,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeader(),
+            _buildHeader(context),
             Expanded(
               child: Obx(() {
                 // لو السلة فارغة نعرض شاشة فارغة
-                if (cart.items.isEmpty) return _buildEmptyState();
+                if (cart.items.isEmpty) return _buildEmptyState(context);
                 return _buildCartContent(context);
               }),
             ),
@@ -39,7 +39,7 @@ class CartPage extends StatelessWidget {
 
   // ─── Header ───────────────────────────────────────────────
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Row(
@@ -48,13 +48,13 @@ class CartPage extends StatelessWidget {
           Obx(
             () => Text(
               '${cart.itemCount} أصناف',
-              style: const TextStyle(color: AppColors.greyText, fontSize: 14),
+              style: TextStyle(color: context.appSubText, fontSize: 14),
             ),
           ),
-          const Text(
+          Text(
             'سلة الطلبات',
             style: TextStyle(
-              color: AppColors.white,
+              color: context.appText,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -65,12 +65,12 @@ class CartPage extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: AppColors.cardColor,
+                color: context.appCard,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: Colors.white,
+                color: context.appText,
                 size: 20,
               ),
             ),
@@ -82,17 +82,17 @@ class CartPage extends StatelessWidget {
 
   // ─── Empty State ──────────────────────────────────────────
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
        
           const SizedBox(height: 16),
-          const Text(
+          Text(
             'سلتك فارغة',
             style: TextStyle(
-              color: AppColors.white,
+              color: context.appText,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -143,9 +143,9 @@ class CartPage extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-          _buildCouponField(),
+          _buildCouponField(context),
           const SizedBox(height: 16),
-          _buildPriceSummary(),
+          _buildPriceSummary(context),
           const SizedBox(height: 16),
           _buildOrderButton(context),
           const SizedBox(height: 24),
@@ -161,7 +161,7 @@ class CartPage extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       height: AppSize.screenHeight(context) * 0.12,
       decoration: BoxDecoration(
-        color: AppColors.cardColor,
+        color: context.appCard,
         borderRadius: BorderRadius.circular(25),
       ),
       child: Padding(
@@ -197,17 +197,17 @@ class CartPage extends StatelessWidget {
                   height: 37,
                   decoration: BoxDecoration(
                     // ignore: deprecated_member_use
-                    color: AppColors.background.withOpacity(0.5),
-                    border: Border.all(color: AppColors.border),
+                    color: context.appBackground.withOpacity(0.5),
+                    border: Border.all(color: context.appBorder),
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      _qtyButton(Icons.add, () => cart.increment(item.id)),
+                       _qtyButton(Icons.add, () => cart.increment(item.id)),
                       Text(
                         '${item.quantity}',
-                        style: const TextStyle(color: AppColors.white),
+                        style: TextStyle(color: context.appText),
                       ),
                       _qtyButton(Icons.remove, () => cart.decrement(item.id)),
                     ],
@@ -225,15 +225,15 @@ class CartPage extends StatelessWidget {
               children: [
                 Text(
                   item.name,
-                  style: const TextStyle(
-                    color: AppColors.white,
+                  style: TextStyle(
+                    color: context.appText,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   item.description,
-                  style: const TextStyle(
-                    color: AppColors.greyText,
+                  style: TextStyle(
+                    color: context.appSubText,
                     fontSize: 10,
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -297,12 +297,12 @@ class CartPage extends StatelessWidget {
 
   // ─── Coupon Field ─────────────────────────────────────────
 
-  Widget _buildCouponField() {
+  Widget _buildCouponField(BuildContext context) {
     return TextFormField(
       controller: _couponCtrl,
-      cursorColor: AppColors.greyText,
+      cursorColor: context.appSubText,
       textAlign: TextAlign.right,
-      style: const TextStyle(color: AppColors.white),
+      style: TextStyle(color: context.appText),
       decoration: InputDecoration(
         prefixIcon: Padding(
           padding: const EdgeInsets.all(8),
@@ -320,20 +320,20 @@ class CartPage extends StatelessWidget {
           color: AppColors.primaryOrange,
         ),
         hintText: 'ادخل كوبون الخصم',
-        hintStyle: const TextStyle(
+        hintStyle: TextStyle(
           fontWeight: FontWeight.bold,
-          color: AppColors.greyText,
+          color: context.appSubText,
         ),
         filled: true,
         // ignore: deprecated_member_use
-        fillColor: AppColors.searchFill.withOpacity(0.3),
+        fillColor: context.appSearchFill.withOpacity(0.3),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: context.appBorder),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(25),
-          borderSide: const BorderSide(color: AppColors.border),
+          borderSide: BorderSide(color: context.appBorder),
         ),
       ),
     );
@@ -341,28 +341,31 @@ class CartPage extends StatelessWidget {
 
   // ─── Price Summary ────────────────────────────────────────
 
-  Widget _buildPriceSummary() {
+  Widget _buildPriceSummary(BuildContext context) {
     return Obx(
       () => Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: AppColors.cardColor,
+          color: context.appCard,
           borderRadius: BorderRadius.circular(25),
         ),
         child: Column(
           children: [
             _priceRow(
+              context,
               'المجموع الفرعي',
               '${cart.subtotal.toStringAsFixed(0)} د.ع',
             ),
             const SizedBox(height: 12),
             _priceRow(
+              context,
               'الخصم',
               '- ${cart.discountAmount.value.toStringAsFixed(0)} د.ع',
               valueColor: Colors.green,
             ),
-            const Divider(color: AppColors.border, height: 24),
+            Divider(color: context.appBorder, height: 24),
             _priceRow(
+              context,
               'الإجمالي',
               '${cart.total.toStringAsFixed(0)} د.ع',
               isBold: true,
@@ -374,6 +377,7 @@ class CartPage extends StatelessWidget {
   }
 
   Widget _priceRow(
+    BuildContext context,
     String label,
     String value, {
     bool isBold = false,
@@ -385,12 +389,12 @@ class CartPage extends StatelessWidget {
         Text(
           value,
           style: TextStyle(
-            color: valueColor ?? AppColors.white,
+            color: valueColor ?? context.appText,
             fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
             fontSize: isBold ? 18 : 14,
           ),
         ),
-        Text(label, style: const TextStyle(color: AppColors.greyText)),
+        Text(label, style: TextStyle(color: context.appSubText)),
       ],
     );
   }
