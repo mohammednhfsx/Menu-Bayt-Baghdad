@@ -56,8 +56,8 @@ class CustomBottomNavBar extends StatelessWidget {
        
         NavItem(
           index: 0,
-          icon: Icons.shopping_bag_outlined,
-          iconActive: Icons.shopping_bag_rounded,
+          icon: Icons.shopping_cart,
+          iconActive: Icons.shopping_cart,
           label: 'السلة',
           selectedIndex: navController.selectedIndex.value,
           onTap: navController.changePage,
@@ -133,10 +133,10 @@ class NavItem extends StatelessWidget {
   decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(30),
     gradient: isSelected
-        ? const LinearGradient(
+        ? LinearGradient(
             colors: [
-              Color(0xFFFF9A5C),
-              Color(0xFFE8521A),
+              const Color(0xFFFF9A5C),
+              Theme.of(context).primaryColor,
             ],
           )
         : null,
@@ -144,7 +144,7 @@ class NavItem extends StatelessWidget {
   boxShadow: isSelected
     ? [
         BoxShadow(
-          color: const Color(0xFFE8521A).withValues(alpha: 0.20,),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.20,),
           blurRadius: 20,  
           offset: const Offset(0, 2),
         ),

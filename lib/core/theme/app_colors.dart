@@ -76,7 +76,6 @@ class AppTheme {
       primary: AppColors.primaryOrange,
       surface: AppColors.cardColor,
       onSurface: AppColors.white,
-      onBackground: AppColors.white,
     ),
     textTheme: const TextTheme(
       bodyLarge: TextStyle(color: AppColors.white),
@@ -108,7 +107,6 @@ class AppTheme {
       primary: AppColors.primaryOrange,
       surface: AppColors.lightCard,
       onSurface: AppColors.lightText,
-      onBackground: AppColors.lightText,
     ),
     textTheme: const TextTheme(
       bodyLarge: TextStyle(color: AppColors.lightText),

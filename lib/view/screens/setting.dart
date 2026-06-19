@@ -298,7 +298,7 @@ class Setting extends StatelessWidget {
                   duration: const Duration(seconds: 2),
                 );
               },
-              activeColor: AppColors.primaryOrange,
+              activeThumbColor: AppColors.primaryOrange,
               activeTrackColor:
                   // ignore: deprecated_member_use
                   AppColors.primaryOrange.withOpacity(0.3),

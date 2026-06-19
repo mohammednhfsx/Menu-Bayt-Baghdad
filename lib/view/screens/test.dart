@@ -7,7 +7,7 @@ class Test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Color.fromARGB(255, 6, 10, 31),
+      backgroundColor:Color.fromARGB(255, 182, 191, 236),
       body: Stack(
         children: const [
           Padding(

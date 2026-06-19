@@ -39,8 +39,8 @@ class CustomTextField extends StatelessWidget {
             Container(
               width: 36,
               height: 36,
-              decoration: const BoxDecoration(
-                color: Color(0xFFFF8A3D),
+              decoration: BoxDecoration(
+                color:  Theme.of(context).primaryColor,
                 shape: BoxShape.circle,
               ),
               child: const Icon(

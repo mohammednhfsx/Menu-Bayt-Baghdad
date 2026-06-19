@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:menubaghdad/core/theme/app_colors.dart';
 
 class ShimmerHomeLoading extends StatefulWidget {
   const ShimmerHomeLoading({super.key});

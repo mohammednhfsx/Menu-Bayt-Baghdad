@@ -27,7 +27,7 @@ class HomeContent extends StatelessWidget {
 
         return RefreshIndicator(
           color: AppColors.white,
-          backgroundColor: AppColors.border,
+          backgroundColor: Theme.of(context).primaryColor,
           onRefresh: () async => await menuCtrl.fetchMenu(),
           child: SingleChildScrollView(
             child: Column(
@@ -36,7 +36,7 @@ class HomeContent extends StatelessWidget {
                 const SizedBox(height: 15),
                 CustomTextField(controller: searchController),
                 const SizedBox(height: 25),
-                _BannerOff(context),
+                _Banner(context),
                 const SizedBox(height: 15),
                 _allCategory(context),
                 const SizedBox(height: 15),
@@ -113,7 +113,7 @@ class HomeContent extends StatelessWidget {
   //──────────────────────────── Banner  ────────────────────────────────────────
 
   // ignore: non_constant_identifier_names
-  Widget _BannerOff(BuildContext context) {
+  Widget _Banner(BuildContext context) {
     return  Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(decoration: BoxDecoration(         borderRadius: BorderRadius.circular(15),
@@ -200,12 +200,12 @@ class HomeContent extends StatelessWidget {
                             width: 1,
                           ),
                           gradient: isSelected
-                              ? const LinearGradient(
+                              ? LinearGradient(
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                    Color(0xFFE65100),
-                                    Color(0xFFFF9800),
+                                  Theme.of(context).primaryColor,
+                                    const Color(0xFFFF9800),
                                   ],
                                 )
                               : null,
@@ -574,8 +574,8 @@ Widget _Mostrequested(BuildContext context) {
                         child: Container(
                           width: 36,
                           height: 36,
-                          decoration: const BoxDecoration(
-                            gradient: AppColors.orangeGradient,
+                          decoration: BoxDecoration(
+                            color:  Theme.of(context).primaryColor,
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(Icons.add, color: Colors.white, size: 22),
