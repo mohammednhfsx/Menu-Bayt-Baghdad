@@ -1,17 +1,118 @@
-# menubaghdad
+# 🍔 Menu Baghdad - Food Ordering App
 
-A new Flutter project.
+A modern food ordering application built with Flutter, designed for the Iraqi market with a premium UI, fast performance, and smooth user experience.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 📱 Preview
+<img width="1536" height="1024" alt="menu" src="https://github.com/user-attachments/assets/d31e7361-daf2-4e94-8208-68e20aa1e32a" />
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+---
+
+## ✨ Overview
+
+Menu Baghdad allows users to discover restaurants, browse menus, add items to the cart, and place food orders through a beautiful and intuitive interface.
+
+---
+
+# 🚀 Features
+
+- 🍽 Browse restaurant categories
+- 🔍 Smart search
+- ❤️ Favorite meals
+- 🛒 Shopping cart
+- 💳 Checkout
+- 📍 Delivery address
+- 🔔 Push Notifications
+- ⭐ Ratings & Reviews
+- 🌙 Dark Mode Ready
+- 🌐 Arabic RTL Support
+- 📱 Responsive UI
+- ⚡ Smooth Animations
+- 🧭 Clean Navigation
+
+---
+
+# 🛠 Built With
+
+- Flutter
+- Dart
+
+
+---
+
+
+
+---
+
+# 📸 Screenshots
+
+| Home | Categories |
+|------|------------|
+| <img width="374" height="810" alt="image" src="https://github.com/user-attachments/assets/79ced985-72d4-48ac-85d0-e1cfb112b07b" /> | ![](screenshots/categories.png) |
+
+| Product | Cart |
+|---------|------|
+| ![](screenshots/product.png) | ![](screenshots/cart.png) |
+
+---
+
+# 📦 Packages
+
+- GetX
+- get
+- shared_preferences
+- supabase_flutter
+- shimmer_animation
+
+---
+
+# ⚙ Getting Started
+
+Clone the repository
+
+```bash
+git clone https://github.com/mohammednhfsx/menu-baghdad.git
+```
+
+Install packages
+
+```bash
+flutter pub get
+```
+
+Run
+
+```bash
+flutter run
+```
+
+---
+
+# 🎨 UI Highlights
+
+- Premium UI
+- Glassmorphism
+- Modern Animations
+- Material 3
+- Responsive Layout
+- RTL Support
+
+---
+
+# 📧 Contact
+
+Portfolio
+
+https://yourportfolio.com
+
+Instagram
+
+https://instagram.com/yourusername
+
+YouTube
+
+https://youtube.com/@yourchannel
