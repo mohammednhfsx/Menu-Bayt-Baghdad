@@ -36,7 +36,7 @@ class HomeContent extends StatelessWidget {
                 const SizedBox(height: 15),
                 CustomTextField(controller: searchController),
                 const SizedBox(height: 25),
-                _Banner(context),
+                _banner(context),
                 const SizedBox(height: 15),
                 _allCategory(context),
                 const SizedBox(height: 15),
@@ -113,32 +113,48 @@ class HomeContent extends StatelessWidget {
   //──────────────────────────── Banner  ────────────────────────────────────────
 
   // ignore: non_constant_identifier_names
-  Widget _Banner(BuildContext context) {
-    return  Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(decoration: BoxDecoration(         borderRadius: BorderRadius.circular(15),
-        boxShadow:[BoxShadow(color: AppColors.greyText,blurRadius: 5,offset: Offset(0, 2))]),
-        child: Center(
-          child: ConstrainedBox(
-        constraints: const BoxConstraints(
-          maxWidth: 1200,
-        ),
-        child: AspectRatio(aspectRatio: 1890/ 832,
-           
-          child: ClipRRect(
+ Widget _banner(BuildContext context) {
+  final screenWidth = MediaQuery.sizeOf(context).width;
+
+  final double bannerHeight = switch (screenWidth) {
+    < 600 => 180,  // Mobile
+    < 1024 => 280, // Tablet
+    _ => 400,      // Laptop & Web
+  };
+
+  return Padding(
+    padding: EdgeInsets.symmetric(
+      horizontal: screenWidth < 600 ? 8 : 16,
+      vertical: 8,
+    ),
+    child: Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1200),
+        child: Container(
+          width: double.infinity,
+          height: bannerHeight,
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            child: Image.asset(
-              "assets/image/banner.jpeg",
-              fit: BoxFit.cover,
-            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.greyText.withValues(alpha: 0.35),
+                blurRadius: 5,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-        ),
+          clipBehavior: Clip.antiAlias,
+          child: Image.asset(
+            'assets/image/banner.jpeg',
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
           ),
         ),
       ),
-    );
-  
-  }
+    ),
+  );
+}
 
   //──────────────────────────── Category  ────────────────────────────────────────
 
@@ -150,9 +166,13 @@ class HomeContent extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'عرض الكل',
-                style: TextStyle(fontSize: 15, color: AppColors.primaryOrange,fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 15,
+                  color: AppColors.primaryOrange,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Text(
                 'الأقسام',
@@ -167,15 +187,13 @@ class HomeContent extends StatelessWidget {
         ),
         const SizedBox(height: 15),
         SizedBox(
-          height: 60,
+          height: 48,
           child: Obx(() {
-        
-          final allCategories = menuCtrl.categories;
+            final allCategories = menuCtrl.categories;
 
             return Directionality(
               textDirection: TextDirection.rtl,
               child: ListView.separated(
-    
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 scrollDirection: Axis.horizontal,
                 itemCount: allCategories.length,
@@ -185,13 +203,13 @@ class HomeContent extends StatelessWidget {
 
                   return Obx(() {
                     final isSelected =
-                        controller.selectedCategory.value == (index );
+                        controller.selectedCategory.value == index;
 
                     return GestureDetector(
-                      onTap: () => controller.changeCategory(index ),
+                      onTap: () => controller.changeCategory(index),
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 300),
-                        width: isSelected ? 80 : 60,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           border: Border.all(
@@ -204,17 +222,12 @@ class HomeContent extends StatelessWidget {
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                   colors: [
-                                  Theme.of(context).primaryColor,
+                                    Theme.of(context).primaryColor,
                                     const Color(0xFFFF9800),
                                   ],
                                 )
                               : null,
-                             
-
-
-
-
-                          color: isSelected ? null :Theme.of(context).cardColor,
+                          color: isSelected ? null : Theme.of(context).cardColor,
                           borderRadius: BorderRadius.circular(15),
                           boxShadow: isSelected
                               ? [
@@ -231,13 +244,19 @@ class HomeContent extends StatelessWidget {
                         child: AnimatedDefaultTextStyle(
                           duration: const Duration(milliseconds: 300),
                           style: TextStyle(
-                            color:  Theme.of(context).textTheme.bodyLarge?.color,
-                            fontSize: isSelected ? 18 : 16,
+                            color: isSelected
+                                ? Colors.white
+                                : Theme.of(context).textTheme.bodyLarge?.color,
+                            fontSize: isSelected ? 16 : 15,
                             fontWeight: isSelected
                                 ? FontWeight.bold
                                 : FontWeight.normal,
                           ),
-                          child: Text(cat['name'], textAlign: TextAlign.center),
+                          child: Text(
+                            cat['name'],
+                            textAlign: TextAlign.center,
+                            maxLines: 1,
+                          ),
                         ),
                       ),
                     );
@@ -332,7 +351,7 @@ final filtered = menuCtrl.menuItems.where((item) {
           ),
           const SizedBox(height: 15),
           SizedBox(
-            height: 320,
+            height: 360,
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               scrollDirection: Axis.horizontal,

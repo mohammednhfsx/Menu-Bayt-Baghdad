@@ -144,33 +144,42 @@ class _OrderConfirmScreenState extends State<OrderConfirmScreen> {
                         '${item.totalPrice.toStringAsFixed(0)} د.ع',
                         style: TextStyle(color: context.appSubText),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            item.name,
-                            style: TextStyle(color: context.appText),
-                          ),
-                          const SizedBox(width: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 2,
-                            ),
-                            decoration: BoxDecoration(
-                              // ignore: deprecated_member_use
-                              color: AppColors.primaryOrange.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Text(
-                              '×${item.quantity}',
-                              style: const TextStyle(
-                                color: AppColors.primaryOrange,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                item.name,
+                                style: TextStyle(color: context.appText),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.right,
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                // ignore: deprecated_member_use
+                                color: AppColors.primaryOrange.withOpacity(0.15),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                '×${item.quantity}',
+                                style: const TextStyle(
+                                  color: AppColors.primaryOrange,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

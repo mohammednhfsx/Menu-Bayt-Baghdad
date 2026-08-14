@@ -1,27 +1,23 @@
 import 'package:get/get.dart';
 import 'package:menubaghdad/controller/home_controller.dart';
+import 'package:menubaghdad/core/dummy_data.dart';
 
-import '../core/supabase_client.dart';
-
-class AppMenuController  extends GetxController {
+class AppMenuController extends GetxController {
   // البيانات
   final RxList categories = [].obs;
   final RxList menuItems = [].obs;
   final RxBool isLoading = true.obs;
 
-    final RxString searchQuery = ''.obs;
+  final RxString searchQuery = ''.obs;
 
   void search(String query) {
-  searchQuery.value = query.trim();
+    searchQuery.value = query.trim();
 
-  // لما يبحث، روّح لـ "الكل" تلقائياً
-  if (query.isNotEmpty) {
-    Get.find<HomeController>().selectedCategory.value = 0;
+    // لما يبحث، روّح لـ "الكل" تلقائياً
+    if (query.isNotEmpty) {
+      Get.find<HomeController>().selectedCategory.value = 0;
+    }
   }
-}
-
-  // ID المطعم الحالي — لاحقاً يجي من QR Code
-  final String restaurantId = '11111111-1111-1111-1111-111111111111';
 
   @override
   void onInit() {
@@ -29,27 +25,15 @@ class AppMenuController  extends GetxController {
     fetchMenu();
   }
 
- Future<void> fetchMenu() async {
+  Future<void> fetchMenu() async {
     try {
       isLoading.value = true;
 
-      // جلب التصنيفات
-      final catResponse = await supabase
-          .from('categories')
-          .select()
-          .eq('restaurant_id', restaurantId)
-          .order('sort_order');
+      // محاكاة تأخير بسيط لإظهار أنيميشن الـ Shimmer الأنيق
+      await Future.delayed(const Duration(milliseconds: 400));
 
-      // جلب الوجبات المتاحة فقط
-      final itemsResponse = await supabase
-          .from('menu_items')
-          .select('*, categories!inner(restaurant_id)')
-          .eq('categories.restaurant_id', restaurantId)
-          .eq('is_available', true);
-
-      categories.assignAll(catResponse);
-      menuItems.assignAll(itemsResponse);
-
+      categories.assignAll(DummyData.categories);
+      menuItems.assignAll(DummyData.menuItems);
     } catch (e) {
       Get.snackbar('خطأ', 'تعذر تحميل المنيو: $e');
     } finally {
@@ -57,3 +41,4 @@ class AppMenuController  extends GetxController {
     }
   }
 }
+

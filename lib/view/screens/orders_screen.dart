@@ -200,7 +200,9 @@ class OrdersScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                order.id.substring(0, 15),
+                order.id.length > 15
+                    ? order.id.substring(0, 15)
+                    : order.id,
                 style: TextStyle(
                   color: Theme.of(context).textTheme.bodyLarge?.color,
                   fontWeight: FontWeight.bold,
@@ -231,37 +233,45 @@ class OrdersScreen extends StatelessWidget {
               children: [
                 Text(
                   '${(item.price * item.quantity).toStringAsFixed(0)} د.ع',
-                  style:
-                      TextStyle(color: Theme.of(context).hintColor),
+                  style: TextStyle(color: Theme.of(context).hintColor),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      item.name,
-                      style: TextStyle(
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodyLarge
-                              ?.color),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryOrange.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        '×${item.quantity}',
-                        style: const TextStyle(
-                          color: AppColors.primaryOrange,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          item.name,
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyLarge?.color,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.right,
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryOrange.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          '×${item.quantity}',
+                          style: const TextStyle(
+                            color: AppColors.primaryOrange,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

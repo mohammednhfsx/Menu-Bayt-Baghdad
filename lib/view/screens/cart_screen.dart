@@ -7,7 +7,6 @@ import 'package:menubaghdad/controller/home_controller.dart';
 import 'package:menubaghdad/core/theme/app_colors.dart';
 import 'package:menubaghdad/view/screens/order_confirm_screen.dart';
 import 'package:menubaghdad/view/widgets/animated_container.dart';
-import '../../core/size_extensions.dart';
 
 class CartPage extends StatelessWidget {
   CartPage({super.key});
@@ -159,15 +158,14 @@ class CartPage extends StatelessWidget {
   Widget _buildCartItem(dynamic item, BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      height: AppSize.screenHeight(context) * 0.12,
+      constraints: const BoxConstraints(minHeight: 105),
       decoration: BoxDecoration(
         color: context.appCard,
         borderRadius: BorderRadius.circular(25),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(12),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             // ─ أزرار الكمية والحذف ─
             Column(
@@ -191,10 +189,11 @@ class CartPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
                 // + / - buttons
                 Container(
                   width: 95,
-                  height: 37,
+                  height: 36,
                   decoration: BoxDecoration(
                     // ignore: deprecated_member_use
                     color: context.appBackground.withOpacity(0.5),
@@ -204,10 +203,13 @@ class CartPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                       _qtyButton(Icons.add, () => cart.increment(item.id)),
+                      _qtyButton(Icons.add, () => cart.increment(item.id)),
                       Text(
                         '${item.quantity}',
-                        style: TextStyle(color: context.appText),
+                        style: TextStyle(
+                          color: context.appText,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       _qtyButton(Icons.remove, () => cart.decrement(item.id)),
                     ],
@@ -216,46 +218,57 @@ class CartPage extends StatelessWidget {
               ],
             ),
 
-            const Spacer(),
+            const SizedBox(width: 12),
 
             // ─ معلومات الصنف ─
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  item.name,
-                  style: TextStyle(
-                    color: context.appText,
-                    fontWeight: FontWeight.bold,
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    item.name,
+                    style: TextStyle(
+                      color: context.appText,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.right,
                   ),
-                ),
-                Text(
-                  item.description,
-                  style: TextStyle(
-                    color: context.appSubText,
-                    fontSize: 10,
+                  const SizedBox(height: 4),
+                  Text(
+                    item.description,
+                    style: TextStyle(
+                      color: context.appSubText,
+                      fontSize: 11,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.right,
                   ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  '${item.totalPrice.toStringAsFixed(0)} د.ع',
-                  style: const TextStyle(
-                    color: AppColors.primaryOrange,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 6),
+                  Text(
+                    '${item.totalPrice.toStringAsFixed(0)} د.ع',
+                    style: const TextStyle(
+                      color: AppColors.primaryOrange,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
 
-            const SizedBox(width: 10),
+            const SizedBox(width: 12),
 
             // ─ صورة الصنف ─
             ClipRRect(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(18),
               child: SizedBox(
-                width: AppSize.screenWidth(context) * 0.20,
-                height: double.infinity,
+                width: 85,
+                height: 85,
                 child:
                     (item.imageUrl != null && item.imageUrl!.startsWith('http'))
                     ? Image.network(
@@ -410,7 +423,7 @@ class CartPage extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        height: AppSize.screenHeight(context) * 0.065,
+        height: 52,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           gradient: const LinearGradient(

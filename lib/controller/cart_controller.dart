@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:menubaghdad/core/supabase_client.dart';
+import 'package:menubaghdad/controller/order_controller.dart';
 import 'package:menubaghdad/model/cart_model.dart';
+import 'package:menubaghdad/model/order_model.dart';
 
 class CartController extends GetxController {
   final RxList<CartItem> items = <CartItem>[].obs;
   final RxString couponCode = ''.obs;
   final RxDouble discountAmount = 0.0.obs;
-  final RxBool isSubmitting = false.obs; 
-  
+  final RxBool isSubmitting = false.obs;
 
   // ───────────────────── حسابات ───────────────────────────────────────────
 
-  double get subtotal => items.fold(0, (sum, items) => sum + items.totalPrice);
+  double get subtotal => items.fold(0, (sum, item) => sum + item.totalPrice);
   double get total => subtotal - discountAmount.value;
-  int get itemCount => items.fold(0, (sum, items) => sum + items.quantity);
+  int get itemCount => items.fold(0, (sum, item) => sum + item.quantity);
 
   // ─── العمليات ─────────────────────────────────────────────
 
   void addItem(CartItem newItem) {
     final index = items.indexWhere((i) => i.id == newItem.id);
     if (index >= 0) {
-      items[index].quantity++;
+      items[index].quantity += newItem.quantity;
       items.refresh();
     } else {
       items.add(newItem);
@@ -64,7 +64,7 @@ class CartController extends GetxController {
 
   void clearCart() => items.clear();
 
-  // ─── إرسال الطلب لـ Supabase ──────────────────────────────
+  // ─── محاكاة إرسال الطلب للـ UI Kit Demo ──────────────────────
 
   Future<Map<String, dynamic>?> submitOrder({
     required String tableNumber,
@@ -75,71 +75,41 @@ class CartController extends GetxController {
     try {
       isSubmitting.value = true;
 
-      // ١. نجد أو ننشئ الطاولة
-      final tableResponse = await supabase
-          .from('tables')
-          .select('id')
-          .eq('table_number', tableNumber)
-          .eq('restaurant_id', '11111111-1111-1111-1111-111111111111')
-          .maybeSingle();
+      // محاكاة استجابة شبكية سريعة
+      await Future.delayed(const Duration(milliseconds: 600));
 
-      String tableId;
-      if (tableResponse == null) {
-        final newTable = await supabase
-            .from('tables')
-            .insert({
-              'restaurant_id': '11111111-1111-1111-1111-111111111111',
-              'table_number': tableNumber,
-              'status': 'open',
-            })
-            .select('id')
-            .single();
-        tableId = newTable['id'];
-      } else {
-        tableId = tableResponse['id'];
+      final orderId = 'ORD-${DateTime.now().millisecondsSinceEpoch.toString().substring(7)}';
+
+      // تحويل عناصر السلة إلى OrderItemModel وإضافتها إلى قائمة الطلبات الحية
+      final orderItems = items
+          .map((item) => OrderItemModel(
+                name: item.name,
+                quantity: item.quantity,
+                price: item.price,
+              ))
+          .toList();
+
+      if (Get.isRegistered<OrdersController>()) {
+        Get.find<OrdersController>().addOrder(
+          tableNumber: tableNumber,
+          total: total,
+          items: orderItems,
+        );
       }
 
-        // ───    sessions   ──────────────────────────────
-      final session = await supabase
-          .from('sessions')
-          .insert({
-            'table_id': tableId,
-            'status': 'open',
-          })
-          .select('id')
-          .single();
+      final mockOrder = {
+        'id': orderId,
+        'table_number': tableNumber,
+        'total_amount': total,
+        'status': 'new',
+        'payment_method': paymentMethod,
+        'created_at': DateTime.now().toIso8601String(),
+      };
 
-      final sessionId = session['id'];
-
-       // ───    Created order   ──────────────────────────────
-      final order = await supabase
-          .from('orders')
-          .insert({
-            'session_id': sessionId,
-            'table_id': tableId,
-            'total_amount': total,
-            'status': 'new',
-            'payment_method': paymentMethod,
-          })
-          .select()
-          .single();
-
-      final orderId = order['id'];
-
-         // ───    details order   ──────────────────────────────
-      final orderItems = items.map((item) => {
-        'order_id': orderId,
-        'menu_item_id': item.id,
-        'quantity': item.quantity,
-      }).toList();
-
-      await supabase.from('order_items').insert(orderItems);
-
-      // ٥. تنظيف السلة
+      // تنظيف السلة
       clearCart();
 
-      return order;
-
+      return mockOrder;
     } catch (e) {
       Get.snackbar('خطأ', 'تعذر إرسال الطلب: $e',
           backgroundColor: Colors.red, colorText: Colors.white);
@@ -148,4 +118,4 @@ class CartController extends GetxController {
       isSubmitting.value = false;
     }
   }
-}
+}
